@@ -1,0 +1,76 @@
+.cluster-status {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+
+  h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+  }
+
+  .cluster-statistics, .cluster-health, .indices {
+    margin-bottom: 20px;
+  }
+
+  .stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    .stat-item {
+      flex: 1 1 30%;
+      margin: 10px;
+      padding: 20px;
+      background: #f5f5f5;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      text-align: center;
+
+      .value {
+        display: block;
+        font-size: 1.5em;
+        font-weight: bold;
+      }
+
+      .label {
+        display: block;
+        margin-top: 5px;
+        font-size: 1em;
+        color: #777;
+      }
+    }
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background: #f5f5f5;
+    }
+
+    .green {
+      color: green;
+    }
+  }
+
+  button {
+    margin-right: 5px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+}

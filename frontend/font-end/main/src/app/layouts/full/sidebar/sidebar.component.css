@@ -1,0 +1,85 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.flex-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sidebar-list {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1; /* Faire en sorte que la barre latérale prenne tout l'espace vertical restant */
+}
+
+h3 {
+  margin: 10px 0;
+  padding: 5px 10px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  background-color: #777cb4a1;
+  border-bottom: 1px solid #777cb4a1;
+}
+
+mat-nav-list {
+  padding: 0;
+}
+
+a[mat-list-item] {
+  display: flex;
+  align-items: center;
+  padding: 10px; /* Ajouté pour un peu de padding interne */
+  text-decoration: none; /* Suppression du soulignement */
+}
+
+mat-icon[mat-list-icon] {
+  margin-right: 10px;
+}
+
+a[mat-list-item]:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Un effet de survol subtil */
+}
+
+.topbar {
+  background-color: #080505;
+  color: rgb(20, 13, 13);
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  height: 50px; /* Hauteur fixe pour l'en-tête */
+  box-sizing: border-box; /* Inclure padding et bordures dans la hauteur totale */
+  width: 100%; /* S'assurer qu'il prend toute la largeur */
+}
+
+.app-logo {
+  width: 100px;
+  height: auto;
+  cursor: pointer;
+}
+
+a[mat-button] {
+  color: white;
+  margin-right: 15px;
+}
+
+.mat-form-field {
+  width: 300px;
+}
+
+.flex-1-auto {
+  flex: 1 1 auto;
+}
+
+.profile-image {
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+}

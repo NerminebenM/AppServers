@@ -1,0 +1,94 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.flex-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.header-button {
+  background-color: #7d79cf;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.header-button:hover {
+  background-color: #7484cc;
+}
+
+.header-button:active {
+  background-color: #4559a0;
+}
+
+.topbar {
+  background-color: #777cb4;
+  color: white;
+  display: flex;
+  align-items: center; /* Centrer les éléments verticalement */
+  padding: 0 10px; /* Ajuster le padding horizontal */
+  z-index: 1000;
+}
+
+.content {
+  padding-top: 64px;
+}
+
+.app-logo {
+  width: 100px;
+  height: auto;
+  cursor: pointer;
+}
+
+a[mat-button] {
+  color: white;
+  margin-right: 15px;
+}
+
+/* Style pour la barre de recherche */
+.mat-form-field {
+  width: 200px; /* Ajuster cette largeur selon vos besoins */
+  display: flex;
+  align-items: center; /* Centrer verticalement */
+  margin-bottom: 0; /* Enlever les marges qui pourraient causer le décalage */
+}
+
+.mat-form-field .mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  top: 0;
+}
+
+.mat-icon-button {
+  width: 36px; /* Ajuster la largeur */
+  height: 36px; /* Ajuster la hauteur */
+  padding: 4px; /* Réduire le padding si nécessaire */
+  margin: 0;
+}
+
+.mat-icon-button .mat-button-wrapper {
+  font-size: 18px; /* Ajuster la taille de l'icône */
+}
+
+.flex-1-auto {
+  flex: 1 1 auto;
+}
+
+.profile-image {
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+}

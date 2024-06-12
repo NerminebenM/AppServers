@@ -1,0 +1,48 @@
+<div class="instance-status">
+  <div class="global-stats">
+    <h2>Instance Overview</h2>
+    <div class="stats">
+      <div class="stat-item" *ngFor="let stat of globalStats | keyvalue">
+        <span class="value">{{ stat.value }}</span>
+        <span class="label">{{ stat.key }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="instances">
+    <h2>Instances</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>IP</th>
+          <th>Hostname</th>
+          <th>Port</th>
+          <th>1m, 5m, 15m Load</th>
+          <th>CPU %</th>
+          <th>Memory Used</th>
+          <th>Memory Free</th>
+          <th>Storage Total</th>
+          <th>Storage Available</th>
+          <th>Elasticsearch</th>
+          <th>Logstash</th>
+          <th>Active</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let instance of instances">
+          <td>{{ instance.ipAddress }}</td>
+          <td>{{ instance.name }}</td>
+          <td>{{ instance.port }}</td>
+          <td>{{ instance.load }}</td>
+          <td>{{ instance.cpuUsage }}%</td>
+          <td>{{ instance.memoryUsage }}%</td>
+          <td>{{ instance.memoryFree }}%</td>
+          <td>{{ instance.storageTotal }}</td>
+          <td>{{ instance.storageAvailable }}</td>
+          <td><span [class]="instance.elasticsearch ? 'status-ok' : 'status-fail'"></span></td>
+          <td><span [class]="instance.logstash ? 'status-ok' : 'status-fail'"></span></td>
+          <td><span [class]="instance.active ? 'status-ok' : 'status-fail'"></span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

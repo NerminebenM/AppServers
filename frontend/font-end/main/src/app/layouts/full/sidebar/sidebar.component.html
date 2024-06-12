@@ -1,0 +1,16 @@
+<body>
+  <div class="flex-layout">
+    <div class="topbar">
+
+    </div>
+    <mat-nav-list class="sidebar-list">
+      <ng-container *ngFor="let item of navItems">
+        <h3 *ngIf="item.navCap">{{ item.navCap }}</h3>
+        <a *ngIf="!item.navCap" mat-list-item [routerLink]="item.route">
+          <mat-icon mat-list-icon>{{ item.iconName }}</mat-icon>
+          <span mat-line>{{ item.displayName }}</span>
+        </a>
+      </ng-container>
+    </mat-nav-list>
+  </div>
+</body>

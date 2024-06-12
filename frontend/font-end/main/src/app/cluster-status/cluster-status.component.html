@@ -1,0 +1,94 @@
+<div class="cluster-status">
+  <div class="cluster-statistics" *ngIf="clusterStatistics">
+    <h2>Cluster Statistics</h2>
+    <div class="stats">
+      <div class="stat-item">
+        <span class="value">{{ clusterStatistics.documents | number }}</span>
+        <span class="label">Documents</span>
+      </div>
+      <div class="stat-item">
+        <span class="value">{{ clusterStatistics.primarySize }}</span>
+        <span class="label">Primary Size</span>
+      </div>
+      <div class="stat-item">
+        <span class="value">{{ clusterStatistics.totalSize }}</span>
+        <span class="label">Total Size</span>
+      </div>
+      <div class="stat-item">
+        <span class="value">{{ clusterStatistics.dataInstances }}</span>
+        <span class="label">Data Instances</span>
+      </div>
+      <div class="stat-item">
+        <span class="value">{{ clusterStatistics.totalShards }}</span>
+        <span class="label">Total Shards</span>
+      </div>
+      <div class="stat-item">
+        <span class="value">{{ clusterStatistics.indices }}</span>
+        <span class="label">Indices</span>
+      </div>
+    </div>
+  </div>
+  <div class="cluster-health" *ngIf="clusterHealth">
+    <h2>Cluster Health</h2>
+    <table>
+      <tr>
+        <td>Status</td>
+        <td [ngClass]="{'green': clusterHealth.status === 'Green', 'yellow': clusterHealth.status === 'Yellow', 'red': clusterHealth.status === 'Red'}">{{ clusterHealth.status }}</td>
+      </tr>
+      <tr>
+        <td>Timed Out?</td>
+        <td>{{ clusterHealth.timedOut }}</td>
+      </tr>
+      <tr>
+        <td>Instances</td>
+        <td>{{ clusterHealth.instances }}</td>
+      </tr>
+      <tr>
+        <td> Data Instances</td>
+        <td>{{ clusterHealth.dataInstances }}</td>
+      </tr>
+      <tr>
+        <td>Active Primary Shards</td>
+        <td>{{ clusterHealth.activePrimaryShards }}</td>
+      </tr>
+      <tr>
+        <td>Active Shards</td>
+        <td>{{ clusterHealth.activeShards }}</td>
+      </tr>
+      <tr>
+        <td>Relocating Shards</td>
+        <td>{{ clusterHealth.relocatingShards }}</td>
+      </tr>
+      <tr>
+        <td>Initializing Shards</td>
+        <td>{{ clusterHealth.initializingShards }}</td>
+      </tr>
+      <tr>
+        <td>Unassigned Shards</td>
+        <td>{{ clusterHealth.unassignedShards }}</td>
+      </tr>
+    </table>
+  </div>
+  <div class="indices">
+    <h2>Indices</h2>
+    <table>
+      <tr>
+        <th>Index</th>
+        <th>Docs</th>
+        <th>Primary Size</th>
+        <th>Shards</th>
+        <th>Action</th>
+      </tr>
+      <tr *ngFor="let index of indices">
+        <td>{{ index.name }}</td>
+        <td>{{ index.docs }}</td>
+        <td>{{ index.size }}</td>
+        <td>{{ index.shards }}</td>
+        <td>
+          <button (click)="closeIndex(index)">close</button>
+          <button (click)="deleteIndex(index)">delete</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>

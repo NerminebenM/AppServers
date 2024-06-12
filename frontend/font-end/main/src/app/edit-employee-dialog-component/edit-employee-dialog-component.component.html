@@ -1,0 +1,30 @@
+<h1>Edit Employee</h1>
+<form (submit)="onConfirm()">
+  <div>
+    <label for="nom">Nom:</label>
+    <input type="text" id="nom" name="nom" [(ngModel)]="data.nom" required>
+  </div>
+  <div>
+    <label for="prenom">Prénom:</label>
+    <input type="text" id="prenom" name="prenom" [(ngModel)]="data.prenom" required>
+  </div>
+  <div>
+    <label for="matricule">Matricule:</label>
+    <input type="text" id="matricule" name="matricule" [(ngModel)]="data.matricule" required>
+  </div>
+  <div>
+    <label for="localisation">Localisation:</label>
+    <input type="text" id="localisation" name="localisation" [(ngModel)]="data.localisation" required>
+  </div>
+  <div>
+    <label for="departement">Département:</label>
+    <input type="text" id="departement" name="departement" [(ngModel)]="data.departement" required>
+  </div>
+  <div>
+    <label for="poste">Poste:</label>
+    <input type="text" id="poste" name="poste" [(ngModel)]="data.poste" required>
+  </div>
+  <!-- Autres champs du formulaire -->
+  <button type="submit">Save</button>
+  <button type="button" (click)="onCancel()">Cancel</button>
+</form>

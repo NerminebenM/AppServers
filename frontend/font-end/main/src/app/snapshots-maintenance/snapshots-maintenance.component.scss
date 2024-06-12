@@ -1,0 +1,98 @@
+.snapshots-maintenance {
+  padding: 20px;
+  background-color: #fff;
+
+  h1, h2 {
+    margin-bottom: 20px;
+  }
+
+  .maintenance-repo-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  .create-repository-form {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-top: 20px;
+  }
+
+  .maintenance-settings, .repositories {
+    width: 48%;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+
+  .maintenance-settings {
+    h2 {
+      margin-top: 0;
+    }
+
+    .setting {
+      margin-bottom: 10px;
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      input {
+        margin-right: 10px;
+      }
+    }
+
+    button {
+      display: inline-block;
+      margin-top: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
+
+  .repositories {
+    h2 {
+      margin-top: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+
+      th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+
+      th {
+        background-color: #f5f5f5;
+      }
+
+      tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+    }
+
+    button {
+      display: inline-block;
+      margin-bottom: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
+}

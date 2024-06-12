@@ -1,0 +1,118 @@
+.container {
+  display: flex;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #f7f7f7;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+  h3 {
+    margin: 10px 0;
+    padding: 5px 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    background-color: #777cb4a1;
+    border-bottom: 1px solid #777cb4a1;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+
+    > li {
+      margin-bottom: 10px;
+
+      > a {
+        font-weight: bold;
+
+        text-decoration: none;
+        display: block;
+        padding: 10px;
+
+
+
+
+      }
+
+      ul {
+        padding-left: 20px;
+        margin-top: 5px;
+
+        li {
+          margin-bottom: 5px;
+
+          a {
+            font-weight: normal;
+            color: #555;
+            text-decoration: none;
+            display: block;
+            padding: 5px;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.admin-overview {
+  flex: 1;
+  padding: 20px;
+  background-color: #fff;
+
+  h1 {
+    margin-bottom: 20px;
+  }
+
+  .cluster-statistics {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+
+    .stat {
+      text-align: center;
+      padding: 10px;
+      background-color: #f5f5f5;
+      border-radius: 8px;
+      width: 200px;
+
+      h2 {
+        margin: 0;
+        font-size: 24px;
+      }
+
+      p {
+        margin: 0;
+        font-size: 14px;
+        color: #666;
+      }
+    }
+  }
+
+  .logstash-info {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #e7f3ff;
+    border-left: 4px solid #2196F3;
+  }
+
+  .version-info {
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-left: 4px solid #4CAF50;
+
+    h2 {
+      margin: 0 0 10px 0;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+}

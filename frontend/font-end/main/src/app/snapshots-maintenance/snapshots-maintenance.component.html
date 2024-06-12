@@ -1,0 +1,74 @@
+
+<div class="snapshots-maintenance">
+  <h1>Snapshots & Maintenance</h1>
+
+  <div class="maintenance-repo-container">
+    <div class="maintenance-settings">
+      <h2>Maintenance Settings</h2>
+      <div class="setting">
+        <label>Optimize Indexes older than</label>
+        <input type="number" value="2"> days
+      </div>
+      <div class="setting">
+        <label>Close indexes older than</label>
+        <input type="number" value="30"> days
+      </div>
+      <div class="setting">
+        <label>Delete indexes older than</label>
+        <input type="number" value="0"> days
+      </div>
+      <div class="setting">
+        <label>Repository to store snapshots in</label>
+        <input type="text" placeholder="You must first create a repository on the right.">
+      </div>
+      <div class="setting">
+        <label>Delete snapshots older than</label>
+        <input type="text" placeholder="You must first create a repository on the right.">
+      </div>
+      <div class="setting">
+        <label>Enable Maintenance and Snapshots</label>
+        <input type="radio" name="maintenance" value="yes"> Yes
+        <input type="radio" name="maintenance" value="no"> No
+      </div>
+      <div class="setting">
+        <label>Last modified</label>
+        <p>Mon, 13 Nov 2017 14:55:35 -0600</p>
+      </div>
+      <button>Save Settings</button>
+    </div>
+
+    <div class="repositories">
+      <h2>Repositories</h2>
+      <button (click)="showCreateRepositoryForm()">Create Repository</button>      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Type</th>
+            <th>Size</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="5">No repositories have been created.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+     <!-- Create Repository Form (initially hidden) -->
+  <div *ngIf="isCreateRepositoryFormVisible" class="create-repository-form">
+    <h2>Create Repository</h2>
+    <form (ngSubmit)="addRepository()">
+      <label for="repoName">Repository Name:</label>
+      <input id="repoName" name="repoName" [(ngModel)]="newRepository.name" required>
+
+      <label for="repoLocation">Repository Location:</label>
+      <input id="repoLocation" name="repoLocation" [(ngModel)]="newRepository.location" required>
+
+      <button type="submit">Add Repository</button>
+      <button type="button" (click)="closeCreateRepositoryForm()">Close</button>
+    </form>
+  </div>
+  </div>
+</div>
