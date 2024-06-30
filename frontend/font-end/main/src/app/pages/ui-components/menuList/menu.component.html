@@ -2,97 +2,68 @@
   <mat-card-content class="mat-mdc-card-content p-24">
     <div class="row justify-content-between">
       <div class="col-lg-4">
-        <mat-form-field appearance="outline" class="mat-mdc-form-field w-100 hide-hint ng-tns-c2608167813-126 mat-mdc-form-field-type-mat-input mat-mdc-form-field-has-icon-suffix mat-form-field-appearance-outline mat-primary ng-star-inserted">
+        <mat-form-field appearance="outline" class="w-100">
           <mat-label>Search Users</mat-label>
           <input matInput placeholder="Search" [(ngModel)]="searchQuery" (input)="search()">
           <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
       </div>
       <div class="col-lg-4 d-flex align-items-center justify-content-end">
-        <!-- Champ d'entrée de type file caché -->
         <input type="file" #fileInput style="display: none;" (change)="onFileSelected($event)">
-
-        <!-- Bouton "Add Employee" -->
-        <button mat-flat-button color="primary" mat-ripple-loader-class-name="mat-mdc-button-ripple"
-          class="mdc-button mdc-button--unelevated mat-mdc-unelevated-button mat-primary mat-mdc-button-base"
-          (click)="fileInput.click()">
-          <span class="mat-mdc-button-persistent-ripple mdc-button_ripple"></span>
-          <span class="mdc-button_label">Add Users</span>
-          <span class="mat-mdc-focus-indicator"></span>
-          <span class="mat-mdc-button-touch-target"></span>
-          <span class="mat-ripple mat-mdc-button-ripple"></span>
+        <button mat-flat-button color="primary" (click)="fileInput.click()">
+          <span>Add Users</span>
+        </button>
+        <button mat-flat-button color="accent" (click)="openAddEmployeeDialog()">
+          <span>Add User</span>
         </button>
       </div>
     </div>
     <div class="table-responsive">
-      <table mat-table [dataSource]="dataSource" class="mat-mdc-table mdc-data-table_table cdk-table w-100" role="table">
-        <!-- Empty template for responsive table -->
+      <table mat-table [dataSource]="dataSource" class="employee-table w-100" role="table">
 
-
-        <!-- Position Column -->
-        <ng-container matColumnDef="#">
-          <th mat-header-cell *matHeaderCellDef class="mat-mdc-header-cell mdc-data-table_header-cell cdk-header-cell f-s-16 f-w-600">#</th>
-          <td mat-cell *matCellDef="let row; let i = index" class="mat-cell">{{ i + 1 }}</td>
+        <!-- Username Column -->
+        <ng-container matColumnDef="username">
+          <th mat-header-cell *matHeaderCellDef>Username</th>
+          <td mat-cell *matCellDef="let row">{{ row.username }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef class="mat-mdc-header-cell mdc-data-table_header-cell cdk-header-cell f-s-16 f-w-600">#</th>
-          <td mat-cell *matCellDef="let row" class="mat-cell">{{ row.id }}</td>
+        <!-- Email Column -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let row">{{ row.email }}</td>
         </ng-container>
-        <ng-container matColumnDef="photo">
-          <th mat-header-cell *matHeaderCellDef>Photo</th>
+
+        <!-- Password Column -->
+        <ng-container matColumnDef="password">
+          <th mat-header-cell *matHeaderCellDef>Password</th>
+          <td mat-cell *matCellDef="let row">{{ row.password }}</td>
+        </ng-container>
+       <!-- Role Column -->
+       <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef>Role</th>
+        <td mat-cell *matCellDef="let row">{{ row.role }}</td>
+      </ng-container>
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
           <td mat-cell *matCellDef="let row">
-            <img width="40" class="rounded-circle" [src]="row.photo" alt="Employee photo">
+            <span [ngClass]="{'online': row.status === 'online', 'offline': row.status === 'offline'}">
+              {{ row.status }}
+            </span>
           </td>
         </ng-container>
-        <!-- Name Column -->
-        <ng-container matColumnDef="nom">
-          <th mat-header-cell *matHeaderCellDef class="mat-mdc-header-cell mdc-data-table_header-cell cdk-header-cell f-s-16 f-w-600">Nom</th>
-          <td mat-cell *matCellDef="let row" class="mat-cell">{{ row.nom }}</td>
-        </ng-container>
 
-        <!-- Prénom Column -->
-        <ng-container matColumnDef="prenom">
-          <th mat-header-cell *matHeaderCellDef class="mat-mdc-header-cell mdc-data-table_header-cell cdk-header-cell f-s-16 f-w-600">Prénom</th>
-          <td mat-cell *matCellDef="let row" class="mat-cell">{{ row.prenom }}</td>
-        </ng-container>
-
-        <!-- Matricule Column -->
-        <ng-container matColumnDef="matricule">
-          <th mat-header-cell *matHeaderCellDef class="mat-mdc-header-cell mdc-data-table_header-cell cdk-header-cell f-s-16 f-w-600">Matricule</th>
-          <td mat-cell *matCellDef="let row" class="mat-cell">{{ row.matricule }}</td>
-        </ng-container>
-
-        <!-- Localisation Column -->
-        <ng-container matColumnDef="localisation">
-          <th mat-header-cell *matHeaderCellDef class="mat-mdc-header-cell mdc-data-table_header-cell cdk-header-cell f-s-16 f-w-600">Localisation</th>
-          <td mat-cell *matCellDef="let row" class="mat-cell">{{ row.localisation }}</td>
-        </ng-container>
-
-        <!-- Département Column -->
-        <ng-container matColumnDef="departement">
-          <th mat-header-cell *matHeaderCellDef class="mat-mdc-header-cell mdc-data-table_header-cell cdk-header-cell f-s-16 f-w-600">Département</th>
-          <td mat-cell *matCellDef="let row" class="mat-cell">{{ row.departement }}</td>
-        </ng-container>
-
-        <!-- Poste Column -->
-        <ng-container matColumnDef="poste">
-          <th mat-header-cell *matHeaderCellDef class="mat-mdc-header-cell mdc-data-table_header-cell cdk-header-cell f-s-16 f-w-600">Poste</th>
-          <td mat-cell *matCellDef="let row" class="mat-cell">{{ row.poste }}</td>
-        </ng-container>
 
         <!-- Actions Column -->
         <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef class="mat-mdc-header-cell mdc-data-table_header-cell cdk-header-cell f-s-16 f-w-600">Actions</th>
-          <td mat-cell *matCellDef="let row" class="mat-cell">
-            <!-- Add your action buttons here -->
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let row">
             <button mat-icon-button (click)="editEmployee(row)">
               <mat-icon>edit</mat-icon>
             </button>
             <button mat-icon-button (click)="deleteEmployee(row)">
               <mat-icon>delete</mat-icon>
             </button>
-            <!-- Add more action buttons as needed -->
           </td>
         </ng-container>
 

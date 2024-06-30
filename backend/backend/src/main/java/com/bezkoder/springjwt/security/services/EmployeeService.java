@@ -6,22 +6,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
+@Transactional
 public class EmployeeService {
 
-    Logger logger = LoggerFactory.getLogger(EmployeeService.class);
+    private static final Logger logger = LoggerFactory.getLogger(EmployeeService.class);
 
     @Autowired
     private EmployeeRepository employeeRepository;
 
     public List<Employee> getAllEmployees() {
         List<Employee> employees = employeeRepository.findAll();
-        System.out.println("Employees fetched from repository: " + employees);
+        logger.info("Fetched {} employees from repository.", employees.size());
         return employees;
     }
+
     public List<Employee> searchEmployees(String query) {
         return employeeRepository.findByNomContainingOrPrenomContainingOrMatriculeContaining(query, query, query);
     }
@@ -30,20 +34,27 @@ public class EmployeeService {
         employeeRepository.save(employee);
     }
 
-
     public boolean existsByMatricule(String matricule) {
         return employeeRepository.existsByMatricule(matricule);
     }
 
     public void deleteEmployeeByMatricule(String matricule) {
-        employeeRepository.delete(employeeRepository.findByMatricule(matricule));
+        Employee employee = employeeRepository.findByMatricule(matricule);
+        if (employee == null) {
+            throw new EntityNotFoundException("Employee with matricule " + matricule + " not found.");
+        }
+        employeeRepository.delete(employee);
     }
 
     public void updateEmployee(Employee employee) {
         employeeRepository.save(employee);
     }
-    public Employee getEmployeeByMatricule(String matricule) {
-        return employeeRepository.findByMatricule(matricule);
-    }
 
+    public Employee getEmployeeByMatricule(String matricule) {
+        Employee employee = employeeRepository.findByMatricule(matricule);
+        if (employee == null) {
+            throw new EntityNotFoundException("Employee with matricule " + matricule + " not found.");
+        }
+        return employee;
+    }
 }

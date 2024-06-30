@@ -98,8 +98,10 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
                         auth.requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/api/test/**").permitAll()
                                 .requestMatchers("/api/tasks/**").permitAll()
+                                .requestMatchers("/api/employees/**").permitAll()
                                 .requestMatchers("/server/**").permitAll()
                                 .requestMatchers("/apiserver/**").permitAll()
+                                .requestMatchers("/api/maintenance/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()));

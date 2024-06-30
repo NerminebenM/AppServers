@@ -17,6 +17,8 @@ import { InstanceStatusComponent } from './instance-status/instance-status.compo
 import { AppDashboardmoderatorComponent } from './pages/dashboard-moderator/dashboard-moderator.component';
 import { MonitoredServiceComponent } from './monitored-service/monitored-service.component';
 import { HeaderComponent } from './layouts/full/header/header.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 
 const routes: Routes = [
 
@@ -25,10 +27,14 @@ const routes: Routes = [
     redirectTo: '/login',
     pathMatch: 'full',
   },
+  { path: 'notifications', component: NotificationsComponent },
+
   {
     path: 'login',
     component: AppSideLoginComponent,
   },
+  { path: 'user-profile', component: UserProfileComponent },
+
   {
     path: '',
     component: FullComponent,

@@ -1,4 +1,5 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Employee } from '../services/employee-model';
 import { EmployeeService } from '../services/EmployeeService';
@@ -6,21 +7,32 @@ import { EmployeeService } from '../services/EmployeeService';
 @Component({
   selector: 'app-edit-employee-dialog',
   templateUrl: './edit-employee-dialog-component.component.html',
- // styleUrls: ['./edit-employee-dialog-component.component.css']
+  styleUrls: ['./edit-employee-dialog-component.component.scss']
 })
-export class EditEmployeeDialogComponent {
+export class EditEmployeeDialogComponent implements OnInit {
+  employeeForm: FormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<EditEmployeeDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Employee,
-    private employeeService: EmployeeService // Injectez EmployeeService
+    private fb: FormBuilder,
+    private employeeService: EmployeeService
   ) {}
 
-  onConfirm(): void {
-    // Envoyer la demande de mise à jour à l'API
-    this.employeeService.editEmployee(this.data.matricule, this.data).subscribe(() => {
-      this.dialogRef.close();
+  ngOnInit(): void {
+    this.employeeForm = this.fb.group({
+      username: [this.data.username, Validators.required],
+      email: [this.data.email, [Validators.required, Validators.email]],
+      password: ['', Validators.required]
     });
+  }
+
+  onConfirm(): void {
+    if (this.employeeForm.valid) {
+      this.employeeService.editEmployee(this.data.username, this.employeeForm.value).subscribe(() => {
+        this.dialogRef.close(true);
+      });
+    }
   }
 
   onCancel(): void {

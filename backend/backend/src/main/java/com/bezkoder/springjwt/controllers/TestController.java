@@ -1,7 +1,13 @@
 package com.bezkoder.springjwt.controllers;
 
+import com.bezkoder.springjwt.models.User;
+import com.bezkoder.springjwt.repository.UserRepository;
+import com.bezkoder.springjwt.security.services.UserDetailsImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,6 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/test")
 public class TestController {
+  @Autowired
+  private UserRepository userRepository;
+
+
+
   @GetMapping("/all")
   public String allAccess() {
     return "Public Content.";
@@ -31,5 +42,12 @@ public class TestController {
   @PreAuthorize("hasRole('ADMIN')")
   public String adminAccess() {
     return "Admin Board.";
+  }
+
+  @GetMapping("/current-user")
+  public ResponseEntity<User> getCurrentUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    User user = userRepository.findByUsername(userDetails.getUsername())
+            .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + userDetails.getUsername()));
+    return ResponseEntity.ok(user);
   }
 }

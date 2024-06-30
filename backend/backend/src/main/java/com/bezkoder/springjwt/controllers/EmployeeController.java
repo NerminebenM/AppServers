@@ -1,31 +1,70 @@
 package com.bezkoder.springjwt.controllers;
 
+import com.bezkoder.springjwt.models.*;
+import com.bezkoder.springjwt.payload.response.MessageResponse;
+import com.bezkoder.springjwt.repository.UserRepository;
 import com.bezkoder.springjwt.security.jwt.JwtUtils;
 import com.bezkoder.springjwt.security.jwt.UnauthorizedException;
 import com.bezkoder.springjwt.security.services.EmployeeService;
-import com.bezkoder.springjwt.models.Employee;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
-
+import java.util.Set;
 @RestController
 @RequestMapping("/api/employees")
 public class EmployeeController {
 
     Logger logger = LoggerFactory.getLogger(EmployeeController.class);
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
+    PasswordEncoder encoder;
+
+    @Autowired
+    AuthController authController;
+    @Autowired
     private EmployeeService employeeService;
+    @PostMapping("/addWithUser")
+    public ResponseEntity<?> addEmployeeWithUser(@RequestBody EmployeeWithUserDTO employeeWithUserDTO) {
+        try {
+            Employee employee = employeeWithUserDTO.getEmployee();
+            String username = employeeWithUserDTO.getUsername();
+            String email = employeeWithUserDTO.getEmail();
+            String password = employeeWithUserDTO.getPassword();
+
+            // Vérifier si le nom d'utilisateur est déjà pris
+            if (userRepository.existsByUsername(username)) {
+                return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
+            }
+
+            // Vérifier si l'email est déjà utilisé
+            if (userRepository.existsByEmail(email)) {
+                return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
+            }
+
+            // Ajouter l'employé
+            employeeService.addEmployee(employee);
+
+            // Créer le compte utilisateur pour l'employé
+            User user = new User(username, email, encoder.encode(password));
+            user.setRoles(Set.of(new Role(ERole.ROLE_USER)));
+            userRepository.save(user);
+
+            return ResponseEntity.ok("Employee and user added successfully");
+        } catch (Exception e) {
+            logger.error("Error adding employee and user", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding employee and user");
+        }
+    }
+
 
     @GetMapping("/all")
     public List<Employee> getAllEmployees(HttpServletRequest request) {
@@ -47,7 +86,7 @@ public class EmployeeController {
         return employeeService.searchEmployees(query);
     }
 
-    @PostMapping("/add")
+    /*@PostMapping("/add")
     public String importEmployees(@RequestParam("file") MultipartFile file) {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
             String line;
@@ -63,7 +102,7 @@ public class EmployeeController {
             return "Erreur lors de l'importation des employés : " + e.getMessage();
         }
     }
-
+*/
     @PutMapping("/update/{matricule}")
     public ResponseEntity<String> updateEmployee(@PathVariable String matricule, @RequestBody Employee updatedEmployee) {
         try {
@@ -92,10 +131,10 @@ public class EmployeeController {
 
 
 
-    @DeleteMapping("/delete/{matricule}")
-    public ResponseEntity<String> deleteEmployee(@PathVariable String matricule) {
-        if(employeeService.existsByMatricule(matricule)) {
-            employeeService.deleteEmployeeByMatricule(matricule);
+    @DeleteMapping("/delete/{username}")
+    public ResponseEntity<String> deleteEmployee(@PathVariable String username) {
+        if(employeeService.existsByMatricule(username)) {
+            employeeService.deleteEmployeeByMatricule(username);
             return new ResponseEntity<>("Employé supprimé avec succès !", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Employé non trouvé", HttpStatus.NOT_FOUND);

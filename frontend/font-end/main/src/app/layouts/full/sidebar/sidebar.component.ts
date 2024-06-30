@@ -43,15 +43,16 @@ export class SidebarComponent implements OnInit {
       { navCap: 'Quick View' },
      // { displayName: 'Users and teams', iconName: 'group', route: 'menu/employees' },
      // { displayName: 'Server', iconName: 'storage', route: '/menu/server' },
+     { displayName: 'Manage Servers', iconName: 'error_outline', route: '/menu/server' },
       { displayName: 'User Management', iconName: 'visibility', route: '/menu/employees' },
      // { displayName: 'Bridges', iconName: 'bridge', route: '/bridges' },
-      { displayName: 'Operations Center', iconName: 'settings', route: '/snapshots-maintenance' },
       { displayName: 'Cluster Status', iconName: 'desktop_windows', route: '/cluster-status' },
       { displayName: 'Instance Status', iconName: 'error', route: '/instance-status' },
-      { displayName: 'Manage Servers', iconName: 'error_outline', route: '/menu/server' },
+      { displayName: 'Operations Center', iconName: 'settings', route: '/snapshots-maintenance' },
+
     //  { displayName: 'All Service Problems', iconName: 'report_problem', route: '/monitored-services' },
-      { displayName: 'Add Log Source', iconName: 'report', route: '/add-log-source' },
-      { displayName: 'Network Outages', iconName: 'wifi_off', route: '/network-outages' },
+    //  { displayName: 'Add Log Source', iconName: 'report', route: '/add-log-source' },
+    //  { displayName: 'Network Outages', iconName: 'wifi_off', route: '/network-outages' },
       { navCap: 'Details' },
       { displayName: 'Service Detail', iconName: 'info', route: '/monitored-services' },
       /*{ displayName: 'Host Detail', iconName: 'dns', route: '/host-detail' },
@@ -64,8 +65,8 @@ export class SidebarComponent implements OnInit {
       { displayName: 'BPI', iconName: 'show_chart', route: '/bpi' },
       { displayName: 'Metrics', iconName: 'bar_chart', route: '/metrics' },*/
       { navCap: 'Graphs' },
-     /* { displayName: 'Performance Graphs', iconName: 'insert_chart', route: '/performance-graphs' },
-      { displayName: 'Graph Explorer', iconName: 'explore', route: '/graph-explorer' },
+      { displayName: 'Graph Explorer', iconName: 'explore', route: '/admin' },
+     /* { displayName: 'Graph Explorer', iconName: 'explore', route: '/graph-explorer' },
       { navCap: 'Maps' },
       { displayName: '8bmap', iconName: 'map', route: '/8bmap' },
       { displayName: 'Google Map', iconName: 'map', route: '/google-map' },
@@ -83,8 +84,8 @@ export class SidebarComponent implements OnInit {
       { displayName: 'Notifications', iconName: 'notifications', route: '/notifications' },
       { navCap: 'Monitoring Process' },
       { displayName: 'Process Info', iconName: 'info', route: '/process-info' },
-      { displayName: 'Performance', iconName: 'speed', route: '/performance' },
-      { displayName: 'Event Log', iconName: 'event', route: '/event-log' },
+     // { displayName: 'Performance', iconName: 'speed', route: '/performance' },
+     // { displayName: 'Event Log', iconName: 'event', route: '/event-log' },
     ];
 
   }

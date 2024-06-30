@@ -1,4 +1,3 @@
-
 <div class="snapshots-maintenance">
   <h1>Snapshots & Maintenance</h1>
 
@@ -7,39 +6,40 @@
       <h2>Maintenance Settings</h2>
       <div class="setting">
         <label>Optimize Indexes older than</label>
-        <input type="number" value="2"> days
+        <input type="number" [(ngModel)]="maintenanceSettings.optimizeIndexesOlderThanDays"> days
       </div>
       <div class="setting">
         <label>Close indexes older than</label>
-        <input type="number" value="30"> days
+        <input type="number" [(ngModel)]="maintenanceSettings.closeIndexesOlderThanDays"> days
       </div>
       <div class="setting">
         <label>Delete indexes older than</label>
-        <input type="number" value="0"> days
+        <input type="number" [(ngModel)]="maintenanceSettings.deleteIndexesOlderThanDays"> days
       </div>
       <div class="setting">
         <label>Repository to store snapshots in</label>
-        <input type="text" placeholder="You must first create a repository on the right.">
+        <input type="text" [(ngModel)]="maintenanceSettings.repositoryToStoreSnapshots" placeholder="You must first create a repository on the right.">
       </div>
       <div class="setting">
         <label>Delete snapshots older than</label>
-        <input type="text" placeholder="You must first create a repository on the right.">
+        <input type="text" [(ngModel)]="maintenanceSettings.deleteSnapshotsOlderThan" placeholder="You must first create a repository on the right.">
       </div>
       <div class="setting">
         <label>Enable Maintenance and Snapshots</label>
-        <input type="radio" name="maintenance" value="yes"> Yes
-        <input type="radio" name="maintenance" value="no"> No
+        <input type="radio" name="maintenance" [(ngModel)]="enableMaintenance" [value]="true"> Yes
+        <input type="radio" name="maintenance" [(ngModel)]="enableMaintenance" [value]="false"> No
       </div>
       <div class="setting">
         <label>Last modified</label>
         <p>Mon, 13 Nov 2017 14:55:35 -0600</p>
       </div>
-      <button>Save Settings</button>
+      <button (click)="saveMaintenanceSettings()">Save Settings</button>
     </div>
 
     <div class="repositories">
       <h2>Repositories</h2>
-      <button (click)="showCreateRepositoryForm()">Create Repository</button>      <table>
+      <button (click)="showCreateRepositoryForm()">Create Repository</button>
+      <table>
         <thead>
           <tr>
             <th>Name</th>
@@ -50,25 +50,76 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr *ngIf="!newRepository.name && !newRepository.location">
             <td colspan="5">No repositories have been created.</td>
+          </tr>
+          <tr *ngIf="newRepository.name && newRepository.location">
+            <td>{{ newRepository.name }}</td>
+            <td>{{ newRepository.location }}</td>
+            <td>Type Placeholder</td>
+            <td>Size Placeholder</td>
+            <td>Action Placeholder</td>
           </tr>
         </tbody>
       </table>
     </div>
-     <!-- Create Repository Form (initially hidden) -->
-  <div *ngIf="isCreateRepositoryFormVisible" class="create-repository-form">
-    <h2>Create Repository</h2>
-    <form (ngSubmit)="addRepository()">
-      <label for="repoName">Repository Name:</label>
-      <input id="repoName" name="repoName" [(ngModel)]="newRepository.name" required>
 
-      <label for="repoLocation">Repository Location:</label>
-      <input id="repoLocation" name="repoLocation" [(ngModel)]="newRepository.location" required>
+    <!-- Create Repository Form (initially hidden) -->
+    <div *ngIf="isCreateRepositoryFormVisible" class="create-repository-form">
+      <h2>Create Repository</h2>
+      <form (ngSubmit)="addRepository()">
+        <label for="repoName">Repository Name:</label>
+        <input id="repoName" name="repoName" [(ngModel)]="newRepository.name" required>
 
-      <button type="submit">Add Repository</button>
-      <button type="button" (click)="closeCreateRepositoryForm()">Close</button>
-    </form>
+        <label for="repoLocation">Repository Location:</label>
+        <input id="repoLocation" name="repoLocation" [(ngModel)]="newRepository.location" required>
+
+        <button type="submit">Add Repository</button>
+        <button type="button" (click)="closeCreateRepositoryForm()">Close</button>
+      </form>
+    </div>
   </div>
-  </div>
+<div class="loaded-maintenance-settings">
+  <h2>Loaded Maintenance Settings</h2>
+  <table mat-table [dataSource]="settingsList" class="mat-elevation-z8">
+
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> ID </th>
+      <td mat-cell *matCellDef="let settings"> {{settings.id}} </td>
+    </ng-container>
+
+    <!-- Optimize Indexes Column -->
+    <ng-container matColumnDef="optimizeIndexesOlderThanDays">
+      <th mat-header-cell *matHeaderCellDef> Optimize Indexes </th>
+      <td mat-cell *matCellDef="let settings"> {{settings.optimizeIndexesOlderThanDays}} days </td>
+    </ng-container>
+
+    <!-- Close Indexes Column -->
+    <ng-container matColumnDef="closeIndexesOlderThanDays">
+      <th mat-header-cell *matHeaderCellDef> Close Indexes </th>
+      <td mat-cell *matCellDef="let settings"> {{settings.closeIndexesOlderThanDays}} days </td>
+    </ng-container>
+
+    <!-- Delete Indexes Column -->
+    <ng-container matColumnDef="deleteIndexesOlderThanDays">
+      <th mat-header-cell *matHeaderCellDef> Delete Indexes </th>
+      <td mat-cell *matCellDef="let settings"> {{settings.deleteIndexesOlderThanDays}} days </td>
+    </ng-container>
+
+    <!-- Repository Column -->
+    <ng-container matColumnDef="repositoryToStoreSnapshots">
+      <th mat-header-cell *matHeaderCellDef> Repository </th>
+      <td mat-cell *matCellDef="let settings"> {{settings.repositoryToStoreSnapshots}} </td>
+    </ng-container>
+
+    <!-- Delete Snapshots Column -->
+    <ng-container matColumnDef="deleteSnapshotsOlderThan">
+      <th mat-header-cell *matHeaderCellDef> Delete Snapshots </th>
+      <td mat-cell *matCellDef="let settings"> {{settings.deleteSnapshotsOlderThan}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
 </div>

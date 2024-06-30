@@ -1,0 +1,92 @@
+// Variables de couleurs
+$primary-color: #3f51b5; // Bleu pour les boutons
+$accent-color: #e91e63;
+$background-color: #ffffff;
+$text-color: #333;
+$button-bg-color: $primary-color;
+$button-hover-bg-color: darken($primary-color, 10%);
+$button-text-color: #fff;
+
+:host {
+  display: block;
+  padding: 16px;
+}
+
+.mat-dialog-container {
+  padding: 0;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  font-size: 1em; // Réduction de la taille de la police du titre
+  color: $text-color;
+  margin: 0;
+  text-align: center;
+  background-color: $primary-color;
+  padding: 16px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.mat-dialog-content {
+  background-color: $background-color;
+  padding: 2em;
+}
+
+.mat-form-field {
+  width: 100%;
+  margin-bottom: 1.5em;
+
+  .mat-form-field-label {
+    color: $primary-color !important;
+  }
+
+  .mat-input-element {
+    padding: 0.5em;
+    border-radius: 4px;
+    border: 1px solid lighten($primary-color, 40%);
+  }
+
+  .mat-focused .mat-form-field-label {
+    color: $primary-color !important;
+  }
+
+  .mat-form-field-underline {
+    background-color: $primary-color !important;
+  }
+}
+
+.mat-dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 1em 2em;
+  background-color: $background-color;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+
+  button {
+    background-color: $button-bg-color; // Bleu pour les boutons
+    color: $button-text-color;
+    padding: 0.5em 1.5em;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: $button-hover-bg-color;
+    }
+  }
+}
+
+// Snackbar styles
+.snackbar-success {
+  background-color: $primary-color !important;
+  color: $button-text-color !important;
+}
+
+.snackbar-error {
+  background-color: $accent-color !important;
+  color: $button-text-color !important;
+}

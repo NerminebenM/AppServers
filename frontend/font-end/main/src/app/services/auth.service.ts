@@ -30,6 +30,8 @@ export class AuthService {
         if (token) {
           this.storageService.saveToken(token);
           this.storageService.saveUser(response);
+          // Mettre à jour le statut de l'utilisateur à 'online'
+          this.updateUserStatus(username, 'online').subscribe();
         } else {
           throw new Error('Token is missing in response');
         }
@@ -41,15 +43,21 @@ export class AuthService {
     );
   }
 
-  logout(): Observable<any> {
+  logout(username: string): Observable<any> {
     this.storageService.clean();
-    return this.http.post(AUTH_API + 'signout', {}, httpOptions);
+    // Mettre à jour le statut de l'utilisateur à 'offline'
+    return this.http.post(AUTH_API + 'signout', { username }, httpOptions);
   }
 
   isLoggedIn(): boolean {
     return !!this.storageService.getUser();
   }
+
   getToken(): string | null {
     return this.storageService.getToken();
+  }
+
+  private updateUserStatus(username: string, status: string): Observable<any> {
+    return this.http.post(AUTH_API + 'status', { username, status }, httpOptions);
   }
 }

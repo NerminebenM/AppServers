@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {
   @Autowired
@@ -19,8 +21,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     User user = userRepository.findByUsername(username)
         .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
-
+    user.setStatus("online");
+    userRepository.save(user);
     return UserDetailsImpl.build(user);
+  }
+  public List<User> searchUsers(String username) {
+    return userRepository.findByUsernameContaining(username);
   }
 
 }

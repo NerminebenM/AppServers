@@ -122,6 +122,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { AddEmployeeDialogComponent } from './add-employee-dialog/add-employee-dialog.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 
 @NgModule({
   declarations: [
@@ -142,6 +145,9 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     InstanceStatusComponent,
     LineChartComponent,
     MonitoredServiceComponent,
+    AddEmployeeDialogComponent,
+    UserProfileComponent,
+    NotificationsComponent,
   ],
   imports: [
     BrowserModule,

@@ -3,6 +3,9 @@ import { NotifierService } from 'angular-notifier';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
+  getUserNotifications(userId: any) {
+    throw new Error('Method not implemented.');
+  }
   private readonly notifier: NotifierService;
 
   constructor(notifierService: NotifierService) {

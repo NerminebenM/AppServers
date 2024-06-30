@@ -1,14 +1,13 @@
 package com.bezkoder.springjwt.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
-
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Set;
 
 @Entity
 public class Employee {
-
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
@@ -33,6 +32,12 @@ public class Employee {
     @JsonProperty("poste")
     private String poste;
 
+    @ManyToOne // Un employé est associé à un utilisateur
+    private User user; // Référence vers l'utilisateur
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<Role> roles;
+
 
     public Employee(String nom, String prenom, String matricule, String localisation, String departement, String poste) {
         this.nom = nom;
@@ -46,7 +51,13 @@ public class Employee {
     public Employee() {
 
     }
+    public User getUser() {
+        return user;
+    }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public String getNom() {
         return nom;
@@ -63,6 +74,7 @@ public class Employee {
     public void setPrenom(String prenom) {
         this.prenom = prenom;
     }
+
 
     public String getMatricule() {
         return matricule;

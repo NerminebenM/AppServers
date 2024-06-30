@@ -39,7 +39,7 @@ public class Server {
     private double networkBandwidth;
     @OneToMany(mappedBy = "server", cascade = CascadeType.ALL)
     private List<ServerHistory> history;
-
+    private boolean alertSent;
    /* @OneToMany(mappedBy = "server", cascade = CascadeType.ALL)
     private List<MonitoredService> services;*/
 }

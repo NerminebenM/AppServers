@@ -15,7 +15,7 @@ html, body {
   width: 100%;
   padding: 0;
   margin: 0;
-  flex-grow: 1; /* Faire en sorte que la barre latérale prenne tout l'espace vertical restant */
+  flex-grow: 1; 
 }
 
 h3 {

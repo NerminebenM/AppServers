@@ -6,7 +6,18 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = 'http://localhost:8081/api/test/';
+  getUserId() : number {
+    const user = window.sessionStorage.getItem('auth-user');
+    if (!user) {
+      throw new Error('User not authenticated.');
+    }
+
+    const userData = JSON.parse(user);
+    return userData.id; // Supposons que l'ID de l'utilisateur est stocké dans userData
+  
+    throw new Error('Method not implemented.');
+  }
+  private apiUrl = 'http://localhost:8081/api/users';
 
   constructor(private http: HttpClient) {}
 
@@ -27,26 +38,36 @@ export class UserService {
   }
 
   getCurrentUser(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/current-user`);
+    return this.http.get<any>('http://localhost:8081/api/test/current-user');
   }
-  updateUserProfile(userId: number, updatedUser: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/${userId}`, updatedUser);
+
+  updateUserProfile(id: number, updatedUser: any, photo: File | null): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('username', updatedUser.username);
+    formData.append('email', updatedUser.email);
+    formData.append('motDePasse', updatedUser.password); // Assurez-vous que la clé correspond à ce que le backend attend
+
+    if (photo) {
+      formData.append('photo', photo, photo.name);
+    }
+
+    return this.http.put<any>(`${this.apiUrl}/profile/${id}`, formData);
   }
+
   isLoggedIn(): boolean {
     const user = window.sessionStorage.getItem('auth-user');
     return !!user;
   }
+
   getUserType(): string {
     const user = window.sessionStorage.getItem('auth-user');
     if (!user) {
-      // Si aucun utilisateur n'est connecté, retournez 'guest' ou tout autre type que vous souhaitez utiliser pour les utilisateurs non connectés
-      return 'admin';
+      return 'guest';
     }
 
     const userData = JSON.parse(user);
-    const userType = userData.role; // Supposons que le rôle de l'utilisateur est stocké dans une propriété 'role' du jeton
+    const userType = userData.role;
 
-    // Logique pour mapper le rôle de l'utilisateur à un type d'utilisateur spécifique
     switch (userType) {
       case 'ROLE_ADMIN':
         return 'admin';
@@ -56,5 +77,4 @@ export class UserService {
         return 'user';
     }
   }
-
 }
