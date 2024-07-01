@@ -15,11 +15,10 @@ export class NotificationsComponent implements OnInit {
 
   ngOnInit(): void {
     try {
-      this.userId = this.userService.getUserId(); // Obtenez l'ID de l'utilisateur de manière synchrone
+      this.userId = this.userService.getUserId();
       this.loadNotifications();
     } catch (error) {
       console.error('Error while fetching user ID:', error);
-      // Gérer l'erreur appropriée ici, par exemple, rediriger vers la page de connexion
     }
   }
 
@@ -30,7 +29,6 @@ export class NotificationsComponent implements OnInit {
       },
       error => {
         console.error('Error fetching notifications:', error);
-        // Traitez l'erreur de manière appropriée, par exemple, affichez un message à l'utilisateur
       }
     );
   }
@@ -42,7 +40,18 @@ export class NotificationsComponent implements OnInit {
       },
       error => {
         console.error('Error marking notification as read:', error);
-        // Traitez l'erreur de manière appropriée
+      }
+    );
+  }
+
+  // Méthode pour envoyer une notification d'état de serveur
+  sendServerStatusNotification(message: string): void {
+    this.notificationService.sendServerStatusNotification(message, this.userId).subscribe(
+      () => {
+        console.log('Server status notification sent successfully');
+      },
+      error => {
+        console.error('Error sending server status notification:', error);
       }
     );
   }

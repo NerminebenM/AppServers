@@ -1,62 +1,59 @@
-<mat-toolbar class="topbar" style="background-color: #777cb4;">
+<mat-toolbar class="topbar" style="background-color: #777cb4;" [ngClass]="{ 'night-mode': isNightMode }">
   <!-- Logo de l'application -->
   <button mat-button *ngIf="showToggle" (click)="handleMenuButtonClick()">
     <img src="/assets/images/logos/progress.png" alt="App Logo" class="app-logo" (click)="handleLogoClick()">
   </button>
 
   <!-- Liens de navigation -->
- <!--  <a mat-button href="/admin">Views</a>-->
-  <!-- <a mat-button href="#">Dashboards</a>-->
   <a mat-button href="#">Reports</a>
-  <!--<a mat-button href="#">Configure</a>-->
-  <a mat-button href="#">Tools</a>
-  <a mat-button href="#">Help</a>
-  <!--<a mat-button href="/admin-overview">Admin</a>-->
- <!-- <button mat-button [routerLink]="['/add-log-source']" class="header-button">Add Log Source</button>-->
+  <a mat-button href="/help">Help</a>
   <span class="flex-1-auto"></span>
-<!-- Barre de recherche -->
-<mat-form-field appearance="outline">
-  <mat-label>Search</mat-label>
-  <input matInput type="text" [(ngModel)]="searchQuery" (input)="search(searchQuery)">
-  <button mat-icon-button matSuffix aria-label="Search" (click)="search(searchQuery)">
-    <mat-icon>search</mat-icon>
-  </button>
 
-</mat-form-field>
+  <!-- Barre de recherche -->
+  <mat-form-field appearance="outline">
+    <mat-label>Search</mat-label>
+    <input matInput type="text" [(ngModel)]="searchQuery" (input)="search(searchQuery)">
+    <button mat-icon-button matSuffix aria-label="Search" (click)="search(searchQuery)">
+      <mat-icon>search</mat-icon>
+    </button>
+  </mat-form-field>
 
-<!-- Affichage des résultats de recherche -->
-<div *ngIf="searchResults.length > 0">
-  <h3>Résultats de la recherche</h3>
-  <ul>
-    <li *ngFor="let result of searchResults">
-      {{ result.title }}
-    </li>
-  </ul>
-</div>
+  <!-- Affichage des résultats de recherche -->
+  <div *ngIf="searchResults.length > 0">
+    <h3>Résultats de la recherche</h3>
+    <ul>
+      <li *ngFor="let result of searchResults">
+        {{ result.title }}
+      </li>
+    </ul>
+  </div>
 
   <!-- Language toggle button -->
   <button mat-icon-button [matMenuTriggerFor]="languageMenu" aria-label="Language">
     <mat-icon>language</mat-icon>
   </button>
   <mat-menu #languageMenu="matMenu">
-    <button mat-menu-item (click)="changeLanguage('fr')" aria-label="French">
-      French
+    <button mat-menu-item (click)="changeLanguage('fr')" [attr.aria-label]="'menu.french' | translate">
+      {{ 'menu.french' | translate }}
     </button>
-    <button mat-menu-item (click)="changeLanguage('en')" aria-label="English">
-      English
+
+    <button mat-menu-item (click)="changeLanguage('en')" [attr.aria-label]="'menu.english' | translate">
+      {{ 'menu.english' | translate }}
     </button>
-    <button mat-menu-item (click)="changeLanguage('ar')" aria-label="Arabic">
-      Arabic
+
+    <button mat-menu-item (click)="changeLanguage('ar')" [attr.aria-label]="'menu.arabic' | translate">
+      {{ 'menu.arabic' | translate }}
     </button>
   </mat-menu>
 
-  <!-- Notification Button -->
-  <button mat-icon-button aria-label="Notifications">
-    <mat-icon matBadge="1" matBadgeColor="warn">notifications</mat-icon>
+  <!-- Mode nuit/jour toggle button -->
+   <button mat-icon-button (click)="toggleDayNightMode()">
+    <mat-icon>brightness_4</mat-icon>
   </button>
+
   <!-- Profile Dropdown -->
   <button mat-icon-button [matMenuTriggerFor]="profileMenu" aria-label="Profile">
-    <img src="/assets/images/profile/user-1.jpg" class="rounded-circle object-cover" width="35" />
+    <img [src]="profilePhotoUrl" class="rounded-circle object-cover" width="35" />
   </button>
   <mat-menu #profileMenu="matMenu" class="topbar-dd cardWithShadow">
     <a mat-menu-item [routerLink]="['/user-profile']">
@@ -64,11 +61,6 @@
         <i-tabler name="user" class="icon-18 d-flex"></i-tabler>
       </mat-icon> Mon Profil
     </a>
-    <button mat-menu-item>
-      <mat-icon class="d-flex align-items-center">
-        <i-tabler name="mail" class="icon-18 d-flex"></i-tabler>
-      </mat-icon> My Account
-    </button>
     <button mat-menu-item>
       <mat-icon class="d-flex align-items-center">
         <i-tabler name="list-check" class="icon-18 d-flex"></i-tabler>

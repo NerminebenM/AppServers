@@ -25,11 +25,11 @@ export class AppDashboardadminComponent implements OnInit {
   public recentActivities: RecentActivity[] = [];
   public filteredActivities: RecentActivity[] = [];
 
-  displayedColumns: string[] = ['name', 'budget', 'status'];
+  displayedColumns: string[] = ['name','status'];
   dataSource = [
-    { name: 'server 1', budget: 50000, status: 'In Progress' },
-    { name: 'server B', budget: 75000, status: 'Completed' },
-    { name: 'server C', budget: 100000, status: 'Not Started' }
+    { name: 'server 1',  status: 'In Progress' },
+    { name: 'server B',  status: 'Completed' },
+    { name: 'server C', status: 'Not Started' }
   ];
 
   constructor(private serverService: ServerService) {

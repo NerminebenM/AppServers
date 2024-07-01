@@ -102,6 +102,7 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
                                 .requestMatchers("/server/**").permitAll()
                                 .requestMatchers("/apiserver/**").permitAll()
                                 .requestMatchers("/api/maintenance/**").permitAll()
+                                .requestMatchers("/notif/notifications/server/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()));

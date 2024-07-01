@@ -1,8 +1,7 @@
-import { Component, Output, EventEmitter, Input, ViewEncapsulation, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, Input, ViewEncapsulation, OnInit, Renderer2 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { UserService } from 'src/app/services/user.service';
-import { Router } from '@angular/router';
 import { SearchService } from 'src/app/services/search.service';
 import { ApplicationRef } from '@angular/core';
 
@@ -16,31 +15,53 @@ export class HeaderComponent implements OnInit {
   homeRoute: string = '/';
   searchQuery: string = '';
   searchResults: any[] = [];
-  ngOnInit(): void {
-  }
+  profilePhotoUrl: string | null = '/assets/images/profile/user-1.jpg';
+  isNightMode: boolean = false; // Variable pour suivre l'état du mode nuit
+
   @Input() showToggle = true;
   @Input() toggleChecked = false;
   @Output() toggleMobileNav = new EventEmitter<void>();
   @Output() toggleMobileFilterNav = new EventEmitter<void>();
   @Output() toggleCollapsed = new EventEmitter<void>();
-
   showFiller = false;
   translatedText = '';
 
-  constructor(public dialog: MatDialog, private translateService: TranslateService, private userService: UserService, private searchService: SearchService, private appRef: ApplicationRef) {
-    console.log('SearchService injected:', this.searchService);
+  constructor(
+    public dialog: MatDialog,
+    private translateService: TranslateService,
+    private userService: UserService,
+    private searchService: SearchService,
+    private translate: TranslateService,
+    private appRef: ApplicationRef,
+    private renderer: Renderer2 // Injection du Renderer2
+  ) {
+    console.log('TranslateService injected:', this.translateService);
+  }
 
+  ngOnInit(): void {
+    this.userService.profilePhoto$.subscribe(photo => {
+      this.profilePhotoUrl = photo || '/assets/images/profile/user-1.jpg';
+    });
+
+    this.userService.getCurrentUser().subscribe(user => {
+      if (user.photo) {
+        this.profilePhotoUrl = user.photo;
+      }
+    });
   }
+
   handleLogoClick() {
-     console.log('Logo cliqué');
+    console.log('Logo cliqué');
   }
+
   handleMenuButtonClick() {
     this.toggleMobileNav.emit();
   }
 
   changeLanguage(lang: string) {
-    this.translateService.use(lang);
+    this.translate.use(lang);
   }
+
   search(keyword: string): any[] {
     const results: any[] = [];
 
@@ -59,5 +80,15 @@ export class HeaderComponent implements OnInit {
 
     return results;
   }
-
-}
+ 
+  toggleDayNightMode() {
+    this.isNightMode = !this.isNightMode;
+    console.log('Night mode:', this.isNightMode);
+    if (this.isNightMode) {
+      this.renderer.addClass(document.body, 'night-mode');
+      console.log('Added night-mode class');
+    } else {
+      this.renderer.removeClass(document.body, 'night-mode');
+      console.log('Removed night-mode class');
+    }
+  }}

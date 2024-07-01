@@ -16,15 +16,17 @@ public class NotificationService {
     private final NotificationRepository notificationRepository;
     private final UserRepository userRepository;
 
-    public void sendNotification(User user, String message, String recipient) {
-        Notification notification = new Notification(user);
+    // Méthode pour envoyer une notification d'état de serveur
+    public void sendServerStatusNotification(User user, String message) {
+        Notification notification = new Notification();
         notification.setUser(user);
         notification.setMessage(message);
-        notification.setRecipient(recipient);
+        notification.setRecipient(user.getEmail()); // Vous pouvez ajuster le destinataire selon votre besoin
 
         notification.setRead(false);
         notificationRepository.save(notification);
     }
+
 
     public List<Notification> getUserNotifications(User user) {
         return notificationRepository.findByUserAndReadFalse(user);

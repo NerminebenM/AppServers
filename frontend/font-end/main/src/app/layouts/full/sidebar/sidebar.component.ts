@@ -76,7 +76,7 @@ export class SidebarComponent implements OnInit {
       { displayName: 'Network Status Map', iconName: 'network_check', route: '/network-status-map' },
       { displayName: 'Legacy Network Status Map', iconName: 'network_locked', route: '/legacy-network-status-map' },*/
       { navCap: 'Incident Management' },
-      { displayName: 'Latest Alerts', iconName: 'notifications_active', route: '/latest-alerts' },
+     // { displayName: 'Latest Alerts', iconName: 'notifications_active', route: '/latest-alerts' },
       /*{ displayName: 'Acknowledgements', iconName: 'check_circle', route: '/acknowledgements' },
       { displayName: 'Scheduled Downtime', iconName: 'schedule', route: '/scheduled-downtime' },
       { displayName: 'Mass Acknowledge', iconName: 'done_all', route: '/mass-acknowledge' },
@@ -88,5 +88,6 @@ export class SidebarComponent implements OnInit {
      // { displayName: 'Event Log', iconName: 'event', route: '/event-log' },
     ];
 
+    
   }
 }

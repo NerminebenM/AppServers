@@ -1,4 +1,10 @@
-
 {
-  "APPLICATION": "APPLICATION"
+  "menu": {
+    "french": "الفرنسية",
+    "english": "الإنجليزية",
+    "arabic": "العربية"
+  },
+  "header": {
+    "title": "مرحبًا بكم في تطبيقنا"
+  }
 }

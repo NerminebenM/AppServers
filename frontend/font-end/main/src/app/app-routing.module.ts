@@ -19,6 +19,7 @@ import { MonitoredServiceComponent } from './monitored-service/monitored-service
 import { HeaderComponent } from './layouts/full/header/header.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { HelpsComponent } from './helps/helps.component';
 
 const routes: Routes = [
 
@@ -28,7 +29,7 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   { path: 'notifications', component: NotificationsComponent },
-
+  { path: 'help', component: HelpsComponent },
   {
     path: 'login',
     component: AppSideLoginComponent,

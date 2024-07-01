@@ -1,22 +1,16 @@
-/*import { Component } from '@angular/core';
+// app.component.ts
 
-@Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-})
-export class AppComponent {
-  title = 'APPLICATION';
-}
-*/
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   title: string;
+  isNightMode: boolean = false;
 
   constructor(private translate: TranslateService) {
     // Set the default language (e.g., English)
@@ -30,5 +24,15 @@ export class AppComponent {
     translate.onLangChange.subscribe((event: any) => {
       this.title = event.translations[event.lang]['APPLICATION'];
     });
+  }
+
+  toggleNightMode() {
+    this.isNightMode = !this.isNightMode;
+    const body = document.getElementsByTagName('body')[0];
+    if (this.isNightMode) {
+      body.classList.add('night-mode');
+    } else {
+      body.classList.remove('night-mode');
+    }
   }
 }

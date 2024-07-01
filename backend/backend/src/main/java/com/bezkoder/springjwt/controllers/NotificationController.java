@@ -9,8 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
+@RequestMapping("/notif")
 public class NotificationController {
 
     private final NotificationService notificationService;
@@ -34,4 +36,18 @@ public class NotificationController {
         notificationService.markAsRead(notificationId);
         return ResponseEntity.ok().build();
     }
+
+
+    @PostMapping("/notifications/server")
+    public ResponseEntity<Void> receiveServerStatusNotification(@RequestBody Map<String, Object> payload) {
+        String message = (String) payload.get("message");
+        Long userId = Long.parseLong(payload.get("userId").toString());
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with id " + userId));
+
+        notificationService.sendServerStatusNotification(user, message);
+        return ResponseEntity.ok().build();
+    }
+
 }

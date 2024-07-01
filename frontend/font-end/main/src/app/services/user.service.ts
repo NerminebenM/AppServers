@@ -1,12 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  getUserId() : number {
+  private apiUrl = 'http://localhost:8081/api/users';
+  private profilePhotoSubject = new BehaviorSubject<string | null>(null);
+  profilePhoto$ = this.profilePhotoSubject.asObservable();
+
+  constructor(private http: HttpClient) {}
+
+  getUserId(): number {
     const user = window.sessionStorage.getItem('auth-user');
     if (!user) {
       throw new Error('User not authenticated.');
@@ -14,12 +21,7 @@ export class UserService {
 
     const userData = JSON.parse(user);
     return userData.id; // Supposons que l'ID de l'utilisateur est stocké dans userData
-  
-    throw new Error('Method not implemented.');
   }
-  private apiUrl = 'http://localhost:8081/api/users';
-
-  constructor(private http: HttpClient) {}
 
   getPublicContent(): Observable<any> {
     return this.http.get(this.apiUrl + 'all', { responseType: 'text' });
@@ -51,7 +53,13 @@ export class UserService {
       formData.append('photo', photo, photo.name);
     }
 
-    return this.http.put<any>(`${this.apiUrl}/profile/${id}`, formData);
+    return this.http.put<any>(`${this.apiUrl}/profile/${id}`, formData).pipe(
+      tap((updatedUser) => {
+        if (updatedUser.photo) {
+          this.profilePhotoSubject.next(updatedUser.photo);
+        }
+      })
+    );
   }
 
   isLoggedIn(): boolean {

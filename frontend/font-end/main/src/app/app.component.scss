@@ -1,3 +1,42 @@
+/* styles.scss */
+
+/* Styles globaux pour le mode sombre */
+body.night-mode {
+  background-color: #2c2c2c;
+  color: #f1f1f1;
+}
+
+body.night-mode .topbar {
+  background-color: #444;
+}
+
+body.night-mode .header-button {
+  background-color: #555;
+}
+
+body.night-mode .header-button:hover {
+  background-color: #666;
+}
+
+body.night-mode .header-button:active {
+  background-color: #777;
+}
+
+/* Autres styles spécifiques pour le mode sombre */
+body.night-mode .mat-form-field {
+  color: #f1f1f1;
+}
+
+body.night-mode .mat-icon-button {
+  color: #f1f1f1;
+}
+
+body.night-mode .card {
+  background-color: #3c3c3c;
+  color: #f1f1f1;
+}
+
+/* Styles pour les autres éléments de l'application */
 .app-layout {
   display: flex;
 }

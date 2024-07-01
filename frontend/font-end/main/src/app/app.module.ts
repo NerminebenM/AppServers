@@ -125,6 +125,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { AddEmployeeDialogComponent } from './add-employee-dialog/add-employee-dialog.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { HelpsComponent } from './helps/helps.component';
 
 @NgModule({
   declarations: [
@@ -148,6 +149,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
     AddEmployeeDialogComponent,
     UserProfileComponent,
     NotificationsComponent,
+    HelpsComponent,
   ],
   imports: [
     BrowserModule,
@@ -163,7 +165,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
     MatMenuModule,
     MatButtonModule,
     NgxChartsModule ,
-    
+
     NgApexchartsModule,
     MatCardModule,
     MatListModule,
@@ -193,7 +195,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
       multi: true // Indique qu'il peut y avoir plusieurs intercepteurs HTTP
     },
     // Add TranslateService to providers
-    TranslateService
+  //  TranslateService
   ],
   exports: [TablerIconsModule],
   bootstrap: [AppComponent],
