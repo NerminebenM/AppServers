@@ -39,6 +39,37 @@ public class Server {
     private double networkBandwidth;
     @OneToMany(mappedBy = "server", cascade = CascadeType.ALL)
     private List<ServerHistory> history;
+    @OneToMany(mappedBy = "server", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ClusterHealth> clusterHealths;
+    @OneToMany(mappedBy = "server", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ClusterStatistics> clusterStatistics;
+   /* @OneToMany(mappedBy = "server", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Index> indices;*/
+    // Getters and Setters for the new field
+    public List<ClusterHealth> getClusterHealths() {
+        return clusterHealths;
+    }
+
+    public void setClusterHealths(List<ClusterHealth> clusterHealths) {
+        this.clusterHealths = clusterHealths;
+    }
+
+    public List<ClusterStatistics> getClusterStatistics() {
+        return clusterStatistics;
+    }
+
+    public void setClusterStatistics(List<ClusterStatistics> clusterStatistics) {
+        this.clusterStatistics = clusterStatistics;
+    }
+
+   /* public List<Index> getIndices() {
+        return indices;
+    }
+
+    public void setIndices(List<Index> indices) {
+        this.indices = indices;
+    }
+*/
     private boolean alertSent;
    /* @OneToMany(mappedBy = "server", cascade = CascadeType.ALL)
     private List<MonitoredService> services;*/

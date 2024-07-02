@@ -13,8 +13,19 @@ public class ClusterStatistics {
     private Integer dataInstances;
     private Integer totalShards;
     private Integer indices;
+    @ManyToOne
+    @JoinColumn(name = "server_id", nullable = false)
+    private Server server;
+
 
     // Getters et setters
+    public Server getServer() {
+        return server;
+    }
+
+    public void setServer(Server server) {
+        this.server = server;
+    }
     public Long getId() {
         return id;
     }

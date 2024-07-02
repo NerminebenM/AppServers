@@ -16,6 +16,9 @@ public class ClusterHealth {
     private Integer relocatingShards;
     private Integer initializingShards;
     private Integer unassignedShards;
+    @ManyToOne
+    @JoinColumn(name = "server_id")
+    private Server server;
 
     // Getters et setters
     public Long getId() {
@@ -94,6 +97,13 @@ public class ClusterHealth {
         return unassignedShards;
     }
 
+    public Server getServer() {
+        return server;
+    }
+
+    public void setServer(Server server) {
+        this.server = server;
+    }
     public void setUnassignedShards(Integer unassignedShards) {
         this.unassignedShards = unassignedShards;
     }

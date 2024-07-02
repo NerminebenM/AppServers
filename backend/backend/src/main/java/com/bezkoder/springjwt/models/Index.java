@@ -20,10 +20,19 @@ public class Index {
     private Long size;
 
     // Getters et setters
+   /* @ManyToOne
+    @JoinColumn(name = "server_id", nullable = false)
+    private Server server;
+    public Server getServer() {
+        return server;
+    }
 
+    public void setServer(Server server) {
+        this.server = server;
+    }
     public Long getId() {
         return id;
-    }
+    }*/
 
     public void setId(Long id) {
         this.id = id;
