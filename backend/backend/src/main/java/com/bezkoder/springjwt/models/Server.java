@@ -20,7 +20,7 @@ public class Server {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
-  //  @NotEmpty(message = "IP Address cannot be empty or null")
+    //  @NotEmpty(message = "IP Address cannot be empty or null")
     private String ipAddress;
     private String name;
     private String memory;
@@ -31,11 +31,11 @@ public class Server {
 
     @Enumerated(EnumType.STRING)
     private Status status;
-  //  @Transient
+    //  @Transient
     private double cpuUsage;
-  //  @Transient
+    //  @Transient
     private double memoryUsage;
-  //  @Transient
+    //  @Transient
     private double networkBandwidth;
     @OneToMany(mappedBy = "server", cascade = CascadeType.ALL)
     private List<ServerHistory> history;
@@ -43,8 +43,8 @@ public class Server {
     private List<ClusterHealth> clusterHealths;
     @OneToMany(mappedBy = "server", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ClusterStatistics> clusterStatistics;
-   /* @OneToMany(mappedBy = "server", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Index> indices;*/
+    /* @OneToMany(mappedBy = "server", cascade = CascadeType.ALL, orphanRemoval = true)
+     private List<Index> indices;*/
     // Getters and Setters for the new field
     public List<ClusterHealth> getClusterHealths() {
         return clusterHealths;
@@ -62,14 +62,14 @@ public class Server {
         this.clusterStatistics = clusterStatistics;
     }
 
-   /* public List<Index> getIndices() {
-        return indices;
-    }
+    /* public List<Index> getIndices() {
+         return indices;
+     }
 
-    public void setIndices(List<Index> indices) {
-        this.indices = indices;
-    }
-*/
+     public void setIndices(List<Index> indices) {
+         this.indices = indices;
+     }
+ */
     private boolean alertSent;
    /* @OneToMany(mappedBy = "server", cascade = CascadeType.ALL)
     private List<MonitoredService> services;*/

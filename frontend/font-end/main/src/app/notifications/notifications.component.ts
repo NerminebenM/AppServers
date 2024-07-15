@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
-import { NotificationServiceService, Notification } from '../services/notification-service.service';
+import { Notification, NotificationServiceService } from '../services/notification-service.service';
 
 @Component({
   selector: 'app-notifications',
@@ -8,6 +8,7 @@ import { NotificationServiceService, Notification } from '../services/notificati
   styleUrls: ['./notifications.component.scss']
 })
 export class NotificationsComponent implements OnInit {
+
   notifications: Notification[] = [];
   userId: number;
 
@@ -44,11 +45,17 @@ export class NotificationsComponent implements OnInit {
     );
   }
 
-  // Méthode pour envoyer une notification d'état de serveur
-  sendServerStatusNotification(message: string): void {
-    this.notificationService.sendServerStatusNotification(message, this.userId).subscribe(
+  sendServerDownNotification(): void {
+    const payload = {
+      message: 'Server is down',
+      userId: this.userId,
+      serverId: 1 // Remplacez par l'ID réel du serveur concerné
+    };
+
+    this.notificationService.sendServerStatusNotification(payload).subscribe(
       () => {
         console.log('Server status notification sent successfully');
+        // Vous pouvez mettre à jour les notifications ici si nécessaire
       },
       error => {
         console.error('Error sending server status notification:', error);

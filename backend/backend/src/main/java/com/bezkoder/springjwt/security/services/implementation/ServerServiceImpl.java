@@ -56,32 +56,32 @@ public  class ServerServiceImpl implements ServerService {
     @Autowired
     private AuthenticationFacade authenticationFacade;
 
-   /* @Value("${email.recipient}")
-    private String emailRecipient;
+    /* @Value("${email.recipient}")
+     private String emailRecipient;
 
-    @Value("${email.host}")
-    private String smtpHost;
+     @Value("${email.host}")
+     private String smtpHost;
 
-    @Value("${email.port}")
-    private int smtpPort;
+     @Value("${email.port}")
+     private int smtpPort;
 
-    @Value("${email.username}")
-    private String emailUsername;
+     @Value("${email.username}")
+     private String emailUsername;
 
-    @Value("${email.password}")
-    private String emailPassword;
-*/
+     @Value("${email.password}")
+     private String emailPassword;
+ */
     private Status previousStatus;
 
-   /* protected PasswordAuthentication getPasswordAuthentication() {
-        return new PasswordAuthentication(emailUsername, emailPassword);
-    }*/
-   private void saveRecentActivity(String description) {
-       RecentActivity recentActivity = new RecentActivity();
-       recentActivity.setDescription(description);
-       recentActivity.setTimestamp(LocalDateTime.now());
-       recentActivityRepo.save(recentActivity);
-   }
+    /* protected PasswordAuthentication getPasswordAuthentication() {
+         return new PasswordAuthentication(emailUsername, emailPassword);
+     }*/
+    private void saveRecentActivity(String description) {
+        RecentActivity recentActivity = new RecentActivity();
+        recentActivity.setDescription(description);
+        recentActivity.setTimestamp(LocalDateTime.now());
+        recentActivityRepo.save(recentActivity);
+    }
     @Override
     public Server create(Server server) {
        /* if (!authenticationFacade.isAdmin()) {
@@ -178,12 +178,12 @@ public  class ServerServiceImpl implements ServerService {
         return serverRepo.findAll(of(0, limit)).toList();
     }
 
-  /*  @Override
-    public Collection<Server> list(int limit) {
-        log.info("Fetching all servers");
-        return serverRepo.findAll(of(0, limit)).toList();
-    }
-*/
+    /*  @Override
+      public Collection<Server> list(int limit) {
+          log.info("Fetching all servers");
+          return serverRepo.findAll(of(0, limit)).toList();
+      }
+  */
    /*public List<Server> getAllServer(){
         return serverRepo.findAll();
     }*/
@@ -195,9 +195,9 @@ public  class ServerServiceImpl implements ServerService {
 
     @Override
     public Server update(Server server) {
-       // if (!authenticationFacade.isAdmin()) {
-         //   throw new AccessDeniedException("Vous n'êtes pas autorisé à mettre à jour un serveur");
-       // }
+        // if (!authenticationFacade.isAdmin()) {
+        //   throw new AccessDeniedException("Vous n'êtes pas autorisé à mettre à jour un serveur");
+        // }
 
         log.info("Updating server: {}", server.getName());
 
