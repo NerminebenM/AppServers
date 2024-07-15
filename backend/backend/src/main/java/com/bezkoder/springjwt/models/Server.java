@@ -37,6 +37,9 @@ public class Server {
     private double memoryUsage;
     //  @Transient
     private double networkBandwidth;
+    @ManyToOne
+    @JoinColumn(name = "cluster_id")
+    private Cluster cluster;
     @OneToMany(mappedBy = "server", cascade = CascadeType.ALL)
     private List<ServerHistory> history;
     @OneToMany(mappedBy = "server", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -46,6 +49,20 @@ public class Server {
     /* @OneToMany(mappedBy = "server", cascade = CascadeType.ALL, orphanRemoval = true)
      private List<Index> indices;*/
     // Getters and Setters for the new field
+    public Server(String ipAddress, String name, String memory, String type, String imageUrl, String domain, Status status, double cpuUsage, double memoryUsage, double networkBandwidth, Cluster cluster) {
+        this.ipAddress = ipAddress;
+        this.name = name;
+        this.memory = memory;
+        this.type = type;
+        this.imageUrl = imageUrl;
+        this.domain = domain;
+        this.status = status;
+        this.cpuUsage = cpuUsage;
+        this.memoryUsage = memoryUsage;
+        this.networkBandwidth = networkBandwidth;
+        this.cluster = cluster;
+    }
+
     public List<ClusterHealth> getClusterHealths() {
         return clusterHealths;
     }

@@ -15,4 +15,6 @@ List<Server> findAll();
     Server findByDomain(String domain);
 
     Long countByStatus(Status serverStatus);
+    Server findByIpAddressOrDomain(String ipAddress, String domain);
+
 }

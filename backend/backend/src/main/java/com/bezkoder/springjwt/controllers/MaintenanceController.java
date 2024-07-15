@@ -75,6 +75,7 @@ public class MaintenanceController {
     @Autowired
     private MaintenanceService maintenanceService;
 
+
     @GetMapping("/settings")
     public List<MaintenanceSettings> getAllMaintenanceSettings() {
         return maintenanceService.getAllMaintenanceSettings();

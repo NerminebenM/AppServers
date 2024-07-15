@@ -1,7 +1,10 @@
 package com.bezkoder.springjwt.security.services;
 
+import com.bezkoder.springjwt.exception.ResourceNotFoundException;
+import com.bezkoder.springjwt.models.Cluster;
 import com.bezkoder.springjwt.models.MaintenanceSettings;
 import com.bezkoder.springjwt.models.Repository;
+import com.bezkoder.springjwt.repository.ClusterRepository;
 import com.bezkoder.springjwt.repository.MaintenanceSettingsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +19,8 @@ public class MaintenanceService {
     @Autowired
     private MaintenanceSettingsRepository settingsRepository;
 
+    @Autowired
+    private ClusterRepository clusterRepository;
     public MaintenanceSettings saveMaintenanceSettings(MaintenanceSettings maintenanceSettings) {
         // Ensure ID is set manually
         if (maintenanceSettings.getId() == null) {
@@ -67,4 +72,19 @@ public class MaintenanceService {
         // Sauvegardez les paramètres de maintenance dans le dépôt
         return settingsRepository.save(maintenanceSettings);
     }
+
+    public Cluster createOrUpdateMaintenanceSettings(Long clusterId, MaintenanceSettings maintenanceSettings) {
+        Optional<Cluster> clusterOptional = clusterRepository.findById(clusterId);
+
+        if (!clusterOptional.isPresent()) {
+            throw new ResourceNotFoundException("Cluster not found with id " + clusterId);
+        }
+
+        Cluster cluster = clusterOptional.get();
+        cluster.setMaintenanceSettings(maintenanceSettings);
+
+        return clusterRepository.save(cluster);
+    }
+
+
 }

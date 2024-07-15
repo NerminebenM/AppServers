@@ -33,12 +33,14 @@ public class MaintenanceSettings {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "maintenance_settings_id")
     private List<Repository> repositories;
-
+    @ManyToOne
+    @JoinColumn(name = "cluster_id")
+    private Cluster cluster;
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
+
 }

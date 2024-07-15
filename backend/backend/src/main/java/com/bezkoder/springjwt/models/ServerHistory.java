@@ -27,6 +27,13 @@ public class ServerHistory {
 
     @Enumerated(EnumType.STRING)
     private Status currentStatus;
+    public ServerHistory() {
+    }
+    // Constructeur avec paramètres
+    public ServerHistory(String description, LocalDateTime modificationTime) {
+        this.description = description;
+        this.modificationTime = modificationTime;
+    }
 
     // Getters and setters
 
