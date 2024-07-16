@@ -20,7 +20,12 @@ public class MonitoredService {
     @JoinColumn(name = "server_id")
     private Server server;
 
-
+    public void setName(String name) {
+        if (name == null) {
+            throw new IllegalArgumentException("Name cannot be null");
+        }
+        this.name = name;
+    }
     public Long getId() {
         return id;
     }
@@ -33,9 +38,9 @@ public class MonitoredService {
         return name;
     }
 
-    public void setName(String name) {
+   /* public void setName(String name) {
         this.name = name;
-    }
+    }*/
 
     public String getUrl() {
         return url;
