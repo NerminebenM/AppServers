@@ -9,8 +9,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 public class MonitoredServiceTest {
@@ -25,6 +24,19 @@ public class MonitoredServiceTest {
         MockitoAnnotations.openMocks(this);
         monitoredService = new MonitoredService();
         server = mock(Server.class);
+    }
+
+    @Test
+    public void testInitialValues() {
+        MonitoredService newService = new MonitoredService();
+
+        assertNull(newService.getId());
+        assertNull(newService.getName());
+        assertNull(newService.getUrl());
+        assertNull(newService.getStatus());
+        assertNull(newService.getDescription());
+        assertNull(newService.getServer());
+        assertNull(newService.getCreatedAt());
     }
 
     @Test
@@ -52,6 +64,7 @@ public class MonitoredServiceTest {
         assertEquals(server, monitoredService.getServer());
         assertEquals(createdAt, monitoredService.getCreatedAt());
     }
+
     @Test
     public void testSetNameThrowsExceptionWhenNameIsNull() {
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
