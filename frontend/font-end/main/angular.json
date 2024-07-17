@@ -19,7 +19,9 @@
           "options": {
             "allowedCommonJsDependencies": [
               "jquery",
-              "bootstrap"
+              "bootstrap",
+              "rfdc",
+              "apexcharts"
             ],
             "outputPath": "dist/Modernize",
             "index": "src/index.html",

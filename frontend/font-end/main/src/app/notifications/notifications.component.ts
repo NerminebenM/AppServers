@@ -62,4 +62,16 @@ export class NotificationsComponent implements OnInit {
       }
     );
   }
+
+  sendWebSocketNotification(): void {
+    const notification: Notification = {
+      id: 0, // ID à gérer comme nécessaire
+      message: 'New WebSocket Notification',
+      recipient: 'user2', // Utilisateur cible
+      read: false
+    };
+
+    this.notificationService.sendWebSocketNotification(notification);
+  }
+
 }
