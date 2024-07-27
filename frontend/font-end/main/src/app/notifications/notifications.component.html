@@ -1,43 +1,88 @@
-<div class="container-xl">
-  <div class="table-responsive">
-    <div class="table-wrapper">
-      <div class="table-title">
-        <div class="row">
-          <div class="col-sm-6">
-            <h2>Notifications</h2>
+<div class="app-container">
+  <app-sidebar></app-sidebar>
+  <div class="app-content">
+    <app-header></app-header>
+    <div class="container-xl">
+      <div class="table-responsive">
+        <div class="table-wrapper">
+          <div class="table-title">
+            <div class="row">
+              <div class="col-sm-6">
+                <h2>Notifications</h2>
+              </div>
+              <div class="col-sm-6 text-right">
+
+              </div>
+            </div>
           </div>
-          <div class="col-sm-6">
-            <button (click)="sendServerDownNotification()">Send Server Down Notification</button>
-            <button (click)="sendWebSocketNotification()">Send WebSocket Notification</button> <!-- Nouveau bouton -->
+
+          <!-- Premier Formulaire -->
+          <br>
+          <form (ngSubmit)="sendServerDownNotification()" #serverForm="ngForm">
+            <div class="form-group">
+              <label for="serverAddress">Server :</label>
+              <input type="text" id="serverAddress" name="serverAddress" [(ngModel)]="serverAddress" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Send Notification</button>
+          </form>
+
+          <!-- Nouveau Formulaire d'alerte -->
+          <br>
+          <form (ngSubmit)="sendAlert()" #alertForm="ngForm">
+            <div class="form-group">
+              <label for="ipAddress">Server IP Address/Domain:</label>
+              <input type="text" id="ipAddress" name="ipAddress" [(ngModel)]="ipAddress" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="email">User Email:</label>
+              <input type="email" id="email" name="email" [(ngModel)]="email" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="message">Message:</label>
+              <textarea id="message" name="message" [(ngModel)]="message" class="form-control" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send Alert</button>
+          </form>
+
+          <!-- Messages d'erreur et de succès -->
+          <div *ngIf="errorMessage" class="alert alert-danger">
+            {{ errorMessage }}
           </div>
+          <div *ngIf="successMessage" class="alert alert-success">
+            {{ successMessage }}
+          </div>
+
+          <!-- Liste des notifications -->
+          <br>
+          <ng-container *ngIf="notifications.length > 0; else noNotifications">
+            <div class="table-responsive">
+              <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th>Message</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let notification of notifications" [ngClass]="{'alert-danger': !notification.read}">
+                    <td>{{ notification.message }}</td>
+                    <td>
+                      <button (click)="markAsRead(notification.id)" class="btn btn-primary">
+                        Mark as read
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </ng-container>
+          <ng-template #noNotifications>
+            <div class="alert alert-info">
+              No notifications to display.
+            </div>
+          </ng-template>
         </div>
       </div>
-      <br>
-      <ng-container *ngIf="notifications.length > 0; else noNotifications">
-        <div class="table-responsive">
-          <table class="table table-striped table-hover">
-            <thead>
-              <tr>
-                <th>Message</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let notification of notifications">
-                <td>{{ notification.message }}</td>
-                <td>
-                  <button (click)="markAsRead(notification.id)" class="btn btn-primary">Mark as read</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </ng-container>
-      <ng-template #noNotifications>
-        <div class="alert alert-info">
-          No notifications to display.
-        </div>
-      </ng-template>
     </div>
   </div>
 </div>

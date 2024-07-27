@@ -1,52 +1,73 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Client } from '@stomp/stompjs';
-import * as SockJS from 'sockjs-client';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationServiceService {
-  private baseUrl = 'http://localhost:8081/api/notif';
-  private stompClient: Client;
+  private baseUrl = 'http://localhost:8081/notif';
+  private unreadNotificationsCount = new BehaviorSubject<number>(0);
 
-  constructor(private http: HttpClient) {
-    this.initializeWebSocketConnection();
+  constructor(private http: HttpClient, private authService: AuthService) {
+    this.updateUnreadNotificationsCount();
   }
 
-  private initializeWebSocketConnection() {
-    const socket = new SockJS('http://localhost:8081/ws');
-    this.stompClient = new Client({
-      webSocketFactory: () => socket,
-      onConnect: (frame) => {
-        console.log('Connected: ' + frame);
-      }
+  private getAuthHeaders(): HttpHeaders {
+    const token = this.authService.getToken();
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    this.stompClient.activate();
   }
 
   getUserNotifications(userId: any): Observable<Notification[]> {
-    return this.http.get<Notification[]>(`${this.baseUrl}/user/${userId}/notifications`);
+    const headers = this.getAuthHeaders();
+    return this.http.get<Notification[]>(`${this.baseUrl}/user/${userId}/notifications`, { headers }).pipe(
+      tap(data => console.log('Fetched user notifications:', data)) // Log data
+    );
   }
 
   markAsRead(notificationId: number): Observable<void> {
-    return this.http.post<void>(`${this.baseUrl}/notifications/read/${notificationId}`, null);
+    const headers = this.getAuthHeaders();
+    return this.http.post<void>(`${this.baseUrl}/notifications/read/${notificationId}`, null, { headers }).pipe(
+      tap(() => this.updateUnreadNotificationsCount())
+    );
   }
 
   sendServerStatusNotification(payload: any): Observable<void> {
-    return this.http.post<void>(`${this.baseUrl}/notifications/server`, payload);
+    const headers = this.getAuthHeaders();
+    return this.http.post<void>(`${this.baseUrl}/notifications/server`, payload, { headers }).pipe(
+      tap(() => this.updateUnreadNotificationsCount())
+    );
+  }
+  getUnreadNotifications(userId: number): Observable<Notification[]> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<Notification[]>(`${this.baseUrl}/user/${userId}/notifications/unread`, { headers }).pipe(
+      tap(data => console.log('Fetched unread notifications:', data)) // Log data
+    );
   }
 
-  sendWebSocketNotification(notification: Notification): void {
-    if (this.stompClient && this.stompClient.connected) {
-      this.stompClient.publish({
-        destination: '/app/application',
-        body: JSON.stringify(notification),
-      });
-    }
+  updateUnreadNotificationsCount(): void {
+    const userId = this.authService.getUserId(); // Assurez-vous que cette méthode existe
+    this.getUnreadNotifications(userId).subscribe(notifications => {
+      this.unreadNotificationsCount.next(notifications.length);
+    });
   }
+
+  getUnreadNotificationsCount(): Observable<number> {
+    return this.unreadNotificationsCount.asObservable();
+  }
+  createAlert(ipAddress: string, email: string, message: string): Observable<string> {
+    const headers = this.getAuthHeaders();
+    const payload = { ipAddress, email, message };
+    return this.http.post<string>(`${this.baseUrl}/alerts`, payload, { headers });
+  }
+
+
 }
+
 
 export interface Notification {
   id: number;

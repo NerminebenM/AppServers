@@ -48,7 +48,10 @@ export class AuthService {
     // Mettre à jour le statut de l'utilisateur à 'offline'
     return this.http.post(AUTH_API + 'signout', { username }, httpOptions);
   }
-
+  getUserId(): number {
+    // Assume the user ID is stored in local storage, adapt as needed
+    return Number(localStorage.getItem('userId'));
+  }
   isLoggedIn(): boolean {
     return !!this.storageService.getUser();
   }

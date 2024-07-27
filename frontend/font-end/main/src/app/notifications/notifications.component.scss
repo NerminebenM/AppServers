@@ -1,17 +1,27 @@
-.main-container {
+.app-container {
   display: flex;
+  height: 100vh;
 }
 
-.sidebar {
-  width: 250px; /* Ajustez la largeur du sidebar selon vos besoins */
-  background-color: #f0f0f0; /* Couleur de fond du sidebar */
+app-sidebar {
+  width: 250px;
+  background-color: #f0f0f0;
   padding: 20px;
-  border-right: 1px solid #ccc; /* Bordure à droite du sidebar */
+  border-right: 1px solid #ccc;
 }
 
-.content {
-  flex: 1; /* Le contenu prendra tout l'espace restant */
+.app-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   padding: 20px;
+  overflow: auto;
+}
+
+app-header {
+  background-color: #fff;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
 }
 
 .table-responsive {

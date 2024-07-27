@@ -82,12 +82,12 @@ export class SidebarComponent implements OnInit {
       { displayName: 'Mass Acknowledge', iconName: 'done_all', route: '/mass-acknowledge' },
       { displayName: 'Recurring Downtime', iconName: 'update', route: '/recurring-downtime' },*/
       { displayName: 'Notifications', iconName: 'notifications', route: '/notifications' },
-      { navCap: 'Monitoring Process' },
-      { displayName: 'Process Info', iconName: 'info', route: '/process-info' },
+    //  { navCap: 'Monitoring Process' },
+      //{ displayName: 'Process Info', iconName: 'info', route: '/process-info' },
      // { displayName: 'Performance', iconName: 'speed', route: '/performance' },
      // { displayName: 'Event Log', iconName: 'event', route: '/event-log' },
     ];
 
-    
+
   }
 }

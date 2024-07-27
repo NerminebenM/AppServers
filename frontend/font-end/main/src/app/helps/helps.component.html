@@ -1,34 +1,40 @@
-<div class="help-container">
-  <h1>Aide et Support</h1>
+<div class="app-container">
+  <app-sidebar></app-sidebar>
+  <div class="app-content">
+    <app-header></app-header>
+    <div class="help-container">
+      <h1>Aide et Support</h1>
 
-  <section>
-    <h2>FAQ</h2>
-    <p>Voici quelques questions fréquemment posées :</p>
-    <ul>
-      <li><a href="/user-profile">Comment puis-je modifier mon profil ?</a></li>
-      <li><a href="/user-profile">Comment puis-je changer ma photo de profil ?</a></li>
-      <li><a href="/user-profile">Comment puis-je réinitialiser mon mot de passe ?</a></li>
-    </ul>
-  </section>
+      <section>
+        <h2>FAQ</h2>
+        <p>Voici quelques questions fréquemment posées :</p>
+        <ul>
+          <li><a href="/user-profile">Comment puis-je modifier mon profil ?</a></li>
+          <li><a href="/user-profile">Comment puis-je changer ma photo de profil ?</a></li>
+          <li><a href="/user-profile">Comment puis-je réinitialiser mon mot de passe ?</a></li>
+        </ul>
+      </section>
 
-  <section>
-    <h2>Tutoriels</h2>
-    <p>Guides pour vous aider à naviguer et utiliser les fonctionnalités de l'application :</p>
-    <ul>
-      <li><a href="/rapport">Comment créer un rapport ?</a></li>
-      <li><a href="/menu/server">Comment generer les servers ?</a></li>
-      <li><a href="/notifications">Comment configurer les notifications ?</a></li>
-    </ul>
-  </section>
+      <section>
+        <h2>Tutoriels</h2>
+        <p>Guides pour vous aider à naviguer et utiliser les fonctionnalités de l'application :</p>
+        <ul>
+          <li><a href="/rapport">Comment créer un rapport ?</a></li>
+          <li><a href="/menu/server">Comment générer les serveurs ?</a></li>
+          <li><a href="/notifications">Comment configurer les notifications ?</a></li>
+        </ul>
+      </section>
 
-  <section>
-    <h2>Contact</h2>
-    <p>Si vous avez besoin d'assistance supplémentaire, contactez notre équipe de support :</p>
-    <ul>
-      <li>Email: support@progress.com</li>
-      <li>Téléphone: +33 1 23 45 67 89</li>
-    </ul>
-  </section>
+      <section>
+        <h2>Contact</h2>
+        <p>Si vous avez besoin d'assistance supplémentaire, contactez notre équipe de support :</p>
+        <ul>
+          <li>Email: support@progress.com</li>
+          <li>Téléphone: +33 1 23 45 67 89</li>
+        </ul>
+      </section>
 
-  <button class="back-button" (click)="goBack()">Retour</button>
+      <button class="back-button" (click)="goBack()">Retour</button>
+    </div>
+  </div>
 </div>

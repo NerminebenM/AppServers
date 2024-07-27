@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static com.bezkoder.springjwt.enumeration.Status.SERVER_DOWN;
 import static com.bezkoder.springjwt.enumeration.Status.SERVER_UP;
@@ -55,6 +56,9 @@ public  class ServerServiceImpl implements ServerService {
 
     @Autowired
     private AuthenticationFacade authenticationFacade;
+    private static final int MAX_PING_FAILURES = 5;
+    private final Map<Long, Integer> pingFailuresMap = new ConcurrentHashMap<>();
+
 
     /* @Value("${email.recipient}")
      private String emailRecipient;
@@ -98,6 +102,8 @@ public  class ServerServiceImpl implements ServerService {
         historyEntry.setModificationTime(LocalDateTime.now());
         serverHistoryService.addHistoryEntry(historyEntry);
         saveRecentActivity("Server created: " + server.getName());
+        notificationService.sendNotification("New Server Added", "A new server named " + server.getName() + " has been added.");
+
         return savedServer;
     }
     @Override
@@ -144,6 +150,16 @@ public  class ServerServiceImpl implements ServerService {
             historyEntry.setDescription("Server status changed");
             historyEntry.setModificationTime(LocalDateTime.now());
             serverHistoryService.addHistoryEntry(historyEntry);
+
+            pingFailuresMap.put(server.getId(), 0); // Reset ping failures on status change
+        } else if (currentStatus == SERVER_DOWN) {
+            pingFailuresMap.put(server.getId(), pingFailuresMap.getOrDefault(server.getId(), 0) + 1); // Increment ping failures on failure
+            if (pingFailuresMap.get(server.getId()) >= MAX_PING_FAILURES) {
+                notificationService.sendNotification("Server Down", "Server " + server.getName() + " has been down for " + MAX_PING_FAILURES + " consecutive pings.");
+                pingFailuresMap.put(server.getId(), 0); // Reset after sending notification
+            }
+        } else {
+            pingFailuresMap.put(server.getId(), 0); // Reset ping failures on success
         }
 
         SystemInfo si = new SystemInfo();

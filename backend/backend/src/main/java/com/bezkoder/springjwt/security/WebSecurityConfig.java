@@ -102,8 +102,9 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
                                 .requestMatchers("/server/**").permitAll()
                                 .requestMatchers("/apiserver/**").permitAll()
                                 .requestMatchers("/api/maintenance/**").permitAll()
-                                .requestMatchers("/notif/notifications/server/**").permitAll()
+                                .requestMatchers("/notif/**").permitAll()
                                 .requestMatchers("/api/clusters/**").permitAll()
+                                .requestMatchers("/api/users/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()));
@@ -113,7 +114,6 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
 
         return http.build();
     }
-
 
 
     @Bean

@@ -4,29 +4,39 @@ import com.bezkoder.springjwt.models.Notification;
 import com.bezkoder.springjwt.models.User;
 import com.bezkoder.springjwt.repository.NotificationRepository;
 import com.bezkoder.springjwt.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
 @Service
-@RequiredArgsConstructor
 public class NotificationService {
 
     private final NotificationRepository notificationRepository;
     private final UserRepository userRepository;
+    private final JavaMailSender emailSender;
 
-    // Méthode pour envoyer une notification d'état de serveur
-    public void sendServerStatusNotification(User user, String message) {
-        Notification notification = new Notification();
-        notification.setUser(user);
-        notification.setMessage(message);
-        notification.setRecipient(user.getEmail()); // Vous pouvez ajuster le destinataire selon votre besoin
-
-        notification.setRead(false);
-        notificationRepository.save(notification);
+    @Autowired
+    public NotificationService(NotificationRepository notificationRepository, UserRepository userRepository, JavaMailSender emailSender) {
+        this.notificationRepository = notificationRepository;
+        this.userRepository = userRepository;
+        this.emailSender = emailSender;
     }
 
+    public void sendNotification(String email, String message) {
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(email);
+        mailMessage.setSubject("Server Alert");
+        mailMessage.setText(message);
+        emailSender.send(mailMessage);
+
+    }
+
+    public void sendServerStatusNotification(User user, String message) {
+        Notification notification = new Notification(user, "Server Status", message, user.getEmail());
+        notificationRepository.save(notification);
+    }
 
     public List<Notification> getUserNotifications(User user) {
         return notificationRepository.findByUserAndReadFalse(user);
@@ -42,8 +52,13 @@ public class NotificationService {
     public void saveNotification(Notification notification, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id " + userId));
-
         notification.setUser(user);
         notificationRepository.save(notification);
+    }
+
+    public List<Notification> getUnreadNotifications(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with id " + userId));
+        return notificationRepository.findByUserAndReadFalse(user);
     }
 }

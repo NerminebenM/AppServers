@@ -164,8 +164,6 @@ import { HelpsComponent } from './helps/helps.component';
     MatTableModule,
     MatMenuModule,
     MatButtonModule,
-    NgxChartsModule ,
-
     NgApexchartsModule,
     MatCardModule,
     MatListModule,

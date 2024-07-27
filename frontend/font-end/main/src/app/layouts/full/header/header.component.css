@@ -1,29 +1,9 @@
-body.night-mode {
-  background-color: #2c2c2c !important;
-  color: #f1f1f1 !important;
-}
-
-body.night-mode .topbar {
-  background-color: #444 !important;
-}
-
-body.night-mode .header-button {
-  background-color: #555 !important;
-}
-
-body.night-mode .header-button:hover {
-  background-color: #666 !important;
-}
-
-body.night-mode .header-button:active {
-  background-color: #777 !important;
-}
-
-
+/* Styles de base */
 html, body {
   margin: 0;
   padding: 0;
   height: 100%;
+  font-family: 'Roboto', sans-serif; /* Changer la police pour un style plus moderne */
 }
 
 .flex-layout {
@@ -32,34 +12,14 @@ html, body {
   height: 100%;
 }
 
-.header-button {
-  background-color: #7d79cf;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
-}
-
-.header-button:hover {
-  background-color: #7484cc;
-}
-
-.header-button:active {
-  background-color: #4559a0;
-}
-
 .topbar {
   background-color: #777cb4;
   color: white;
   display: flex;
-  align-items: center; /* Centrer les éléments verticalement */
-  padding: 0 10px; /* Ajuster le padding horizontal */
+  align-items: center;
+  padding: 0 20px;
   z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ajout d'une ombre pour un effet de profondeur */
 }
 
 .content {
@@ -75,14 +35,72 @@ html, body {
 a[mat-button] {
   color: white;
   margin-right: 15px;
+  text-transform: uppercase; /* Mettre le texte en majuscule pour un style moderne */
+}
+
+/* Style pour les boutons dans l'en-tête */
+.header-button {
+  background-color: #7d79cf;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  text-align: center;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Transition douce pour les effets de survol */
+  border-radius: 4px; /* Coins arrondis pour un style plus doux */
+}
+
+.header-button:hover {
+  background-color: #6b72c3;
+}
+
+.header-button:active {
+  background-color: #5a61b1;
+}
+
+/* Styles pour le mode nuit */
+body.night-mode {
+  background-color: #2c2c2c;
+  color: #f1f1f1;
+}
+
+body.night-mode .topbar {
+  background-color: #444;
+}
+
+body.night-mode .header-button {
+  background-color: #555;
+}
+
+body.night-mode .header-button:hover {
+  background-color: #666;
+}
+
+body.night-mode .header-button:active {
+  background-color: #777;
+}
+
+body.night-mode a[mat-button] {
+  color: #f1f1f1;
+}
+
+body.night-mode .mat-form-field {
+  color: #f1f1f1;
+}
+
+body.night-mode .mat-icon-button {
+  color: #f1f1f1;
 }
 
 /* Style pour la barre de recherche */
 .mat-form-field {
-  width: 200px; /* Ajuster cette largeur selon vos besoins */
+  width: 200px;
   display: flex;
-  align-items: center; /* Centrer verticalement */
-  margin-bottom: 0; /* Enlever les marges qui pourraient causer le décalage */
+  align-items: center;
+  margin-bottom: 0;
 }
 
 .mat-form-field .mat-form-field-wrapper {
@@ -94,14 +112,14 @@ a[mat-button] {
 }
 
 .mat-icon-button {
-  width: 36px; /* Ajuster la largeur */
-  height: 36px; /* Ajuster la hauteur */
-  padding: 4px; /* Réduire le padding si nécessaire */
+  width: 36px;
+  height: 36px;
+  padding: 4px;
   margin: 0;
 }
 
 .mat-icon-button .mat-button-wrapper {
-  font-size: 18px; /* Ajuster la taille de l'icône */
+  font-size: 18px;
 }
 
 .flex-1-auto {
@@ -115,15 +133,74 @@ a[mat-button] {
   object-fit: cover;
 }
 
-/* Styles additionnels pour le mode nuit */
-body.night-mode a[mat-button] {
-  color: #f1f1f1;
+/* Style pour les badges de notification */
+.mat-badge-content {
+  background: red;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-body.night-mode .mat-form-field {
-  color: #f1f1f1;
+/* Styles pour les notifications */
+.notifications-menu {
+  min-width: 300px; /* Largeur minimale pour le menu des notifications */
 }
 
-body.night-mode .mat-icon-button {
-  color: #f1f1f1;
+.notifications-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: #f8f8f8;
+}
+
+.notifications-body {
+  max-height: 400px; /* Hauteur maximale pour la liste des notifications */
+  overflow-y: auto; /* Ajout de la barre de défilement pour les notifications */
+}
+
+.notification-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.notification-item button {
+  margin-right: 8px;
+  color: #ff5252;
+}
+
+.notification-item:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Amélioration du style du menu du profil */
+.topbar-dd.cardWithShadow {
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.topbar-dd a {
+  color: #333;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.topbar-dd a:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.topbar-dd .icon-18 {
+  margin-right: 8px;
 }
