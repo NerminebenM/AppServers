@@ -20,6 +20,7 @@ import { HeaderComponent } from './layouts/full/header/header.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { HelpsComponent } from './helps/helps.component';
+import { SettingsComponent } from './settings/settings.component';
 
 const routes: Routes = [
 
@@ -30,6 +31,7 @@ const routes: Routes = [
   },
   { path: 'notifications', component: NotificationsComponent },
   { path: 'help', component: HelpsComponent },
+  { path: 'settings', component: SettingsComponent },
   {
     path: 'login',
     component: AppSideLoginComponent,

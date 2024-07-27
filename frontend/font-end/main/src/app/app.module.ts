@@ -126,6 +126,7 @@ import { AddEmployeeDialogComponent } from './add-employee-dialog/add-employee-d
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { HelpsComponent } from './helps/helps.component';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -150,6 +151,7 @@ import { HelpsComponent } from './helps/helps.component';
     UserProfileComponent,
     NotificationsComponent,
     HelpsComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,

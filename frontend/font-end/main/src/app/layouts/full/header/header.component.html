@@ -53,6 +53,12 @@
         <i-tabler name="user" class="icon-18 d-flex"></i-tabler>
       </mat-icon> Mon Profil
     </a>
+    <button mat-menu-item routerLink="/settings">
+      <mat-icon class="d-flex align-items-center">
+        <i-tabler name="settings" class="icon-18 d-flex"></i-tabler>
+      </mat-icon>
+      Settings
+    </button>
     <div class="p-x-12 m-t-12">
       <a [routerLink]="['/authentication/login']" mat-stroked-button color="primary" class="w-100">Logout</a>
     </div>
