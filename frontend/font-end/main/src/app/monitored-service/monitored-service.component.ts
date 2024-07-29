@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { MonitoredService } from '../models/monitored-service.model';
 import { MonitoredServiceService } from '../services/monitored-service.service';
 import { Observable } from 'rxjs';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-monitored-service',
@@ -13,11 +14,15 @@ export class MonitoredServiceComponent implements OnInit {
   services$: Observable<MonitoredService[]>;
   filterStatus: string = 'ALL';
   isLoading: boolean = false;
+  userRole: string = ''; // Add a property for the user role
 
-  constructor(private monitoredServiceService: MonitoredServiceService) { }
+  constructor(private monitoredServiceService: MonitoredServiceService,    private userService: UserService // Inject UserService
+  ) { }
 
   ngOnInit(): void {
     this.loadServices();
+    this.userRole = this.userService.getUserType();
+
   }
 
   loadServices(): void {

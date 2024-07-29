@@ -27,8 +27,8 @@
           </form>
 
           <!-- Nouveau Formulaire d'alerte -->
-          <br>
-          <form (ngSubmit)="sendAlert()" #alertForm="ngForm">
+          <br >
+          <form (ngSubmit)="sendAlert()" #alertForm="ngForm" *ngIf="userRole === 'admin'">
             <div class="form-group">
               <label for="ipAddress">Server IP Address/Domain:</label>
               <input type="text" id="ipAddress" name="ipAddress" [(ngModel)]="ipAddress" class="form-control" required>

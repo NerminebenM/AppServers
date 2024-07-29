@@ -66,23 +66,26 @@ export class UserService {
     const user = window.sessionStorage.getItem('auth-user');
     return !!user;
   }
-
   getUserType(): string {
     const user = window.sessionStorage.getItem('auth-user');
+    console.log('Session storage user:', user); // Log the session storage content
     if (!user) {
       return 'guest';
     }
 
     const userData = JSON.parse(user);
-    const userType = userData.role;
+    console.log('Parsed user data:', userData); // Log parsed user data
 
-    switch (userType) {
-      case 'ROLE_ADMIN':
-        return 'admin';
-      case 'ROLE_MODERATOR':
-        return 'moderator';
-      default:
-        return 'user';
+    const userRoles = userData.roles;
+    console.log('User roles:', userRoles); // Log user roles
+
+    if (userRoles.includes('ROLE_ADMIN')) {
+      return 'admin';
+    } else if (userRoles.includes('ROLE_MODERATOR')) {
+      return 'mod';
+    } else {
+      return 'user';
     }
   }
+
 }

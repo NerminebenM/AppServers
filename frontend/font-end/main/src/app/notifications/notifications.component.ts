@@ -21,6 +21,7 @@ export class NotificationsComponent implements OnInit {
   // Pour les messages d'erreur et de succès
   errorMessage: string = '';
   successMessage: string = '';
+  userRole: string = ''; // Add a property for the user role
 
   constructor(
     private notificationService: NotificationServiceService,
@@ -34,6 +35,8 @@ export class NotificationsComponent implements OnInit {
     } catch (error) {
       console.error('Error while fetching user ID:', error);
     }
+    this.userRole = this.userService.getUserType();
+
   }
 
   loadNotifications(): void {

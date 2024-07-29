@@ -1,4 +1,8 @@
 <div class="dashboard-container">
+  <div class="report-buttons">
+    <button (click)="printPDF()">Print PDF</button>
+  </div>
+
   <div class="charts-section">
     <div class="chart-container">
       <apx-chart #chart
@@ -45,6 +49,7 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   </div>
+
   <div class="activities-section">
     <h2 class="section-title">Recent Activities</h2>
     <div class="filter-container">
@@ -66,5 +71,4 @@
       </tbody>
     </table>
   </div>
-
 </div>

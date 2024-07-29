@@ -8,7 +8,7 @@
           </div>
           <div class="col-sm-6 text-right">
             <button (click)="printReport()" type="button" class="btn btn-primary">Print Report</button>
-            <button (click)="openModal()" type="button" class="btn btn-success">
+            <button *ngIf="userRole === 'admin'" (click)="openModal()" type="button" class="btn btn-success">
               <i class="material-icons">&#xE147;</i> <span>New Service</span>
             </button>
             <select (ngModelChange)="filterServices($event)" name="status" [(ngModel)]="filterStatus" class="btn btn-info">
@@ -28,7 +28,7 @@
               <th>URL</th>
               <th>Status</th>
               <th>Description</th>
-              <th>Actions</th>
+              <th *ngIf="userRole === 'admin'">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -41,7 +41,7 @@
                 </span>
               </td>
               <td>{{ service.description }}</td>
-              <td>
+              <td *ngIf="userRole === 'admin'">
                 <button (click)="deleteService(service)" class="btn btn-danger btn-sm">
                   <i class="material-icons" title="Delete">&#xE872;</i>
                 </button>

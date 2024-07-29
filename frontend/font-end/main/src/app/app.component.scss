@@ -40,6 +40,16 @@ body.night-mode .card {
 .app-layout {
   display: flex;
 }
+/* Supposons que la classe identifiée soit .sidebar-black-band */
+.sidebar-black-band {
+  display: none; /* Cache l'élément */
+}
+
+/* Ou ajustez le style pour qu'il corresponde mieux à votre design */
+.sidebar-black-band {
+  background-color: transparent; /* Change la couleur de fond */
+  height: 0; /* Ajuste la hauteur */
+}
 
 .sidebar {
   width: 250px;

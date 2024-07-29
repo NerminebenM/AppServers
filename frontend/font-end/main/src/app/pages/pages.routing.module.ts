@@ -14,7 +14,7 @@ export const PagesRoutes: Routes = [
   },
   { path: '/admin', component: AppDashboardadminComponent },
   { path: '/mod', component: AppDashboardmoderatorComponent },
- // { path: '/user', component: AppDashboarduserComponent },
+  //{ path: '/user', component: AppDashboardadminComponent },
 
 
 

@@ -8,7 +8,7 @@
           </div>
           <div class="col-sm-6">
             <button (click)="printReport()" type="button" class="btn btn-primary">Print Report</button>
-            <button (click)="openModal()" type="button" class="btn btn-success">
+            <button *ngIf="userRole === 'admin'" (click)="openModal()" type="button" class="btn btn-success">
               <i class="material-icons">&#xE147;</i> <span>New Server</span>
             </button>
             <span>
@@ -39,8 +39,8 @@
                 <th>Memory</th>
                 <th>Type</th>
                 <th>Status</th>
-                <th>Ping</th>
-                <th>Actions</th>
+                <th *ngIf="userRole === 'admin'" >Ping</th>
+                <th *ngIf="userRole === 'admin'" >Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -56,13 +56,13 @@
                     {{ server.status === 'SERVER_UP' ? 'SERVER UP' : 'SERVER DOWN' }}
                   </span>
                 </td>
-                <td>
+                <td *ngIf="userRole === 'admin'">
                   <a (click)="pingServer(server.ipAddress)" style="cursor: pointer;">
                     <i *ngIf="(filterStatus$ | async) !== server.ipAddress" class="material-icons" title="Ping server">&#xe328;</i>
                     <i *ngIf="(filterStatus$ | async) === server.ipAddress" class="fa fa-spinner fa-spin" style="font-size:24px"></i>
                   </a>
                 </td>
-                <td>
+                <td *ngIf="userRole === 'admin'">
                   <a (click)="deleteServer(server)" class="delete" data-toggle="modal" style="cursor: pointer;">
                     <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
                   </a>

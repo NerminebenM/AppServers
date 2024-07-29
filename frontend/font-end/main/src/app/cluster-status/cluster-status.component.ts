@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ServerService } from '../services/server.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-cluster-status',
@@ -10,12 +11,16 @@ export class ClusterStatusComponent implements OnInit {
   indices = [];
   clusterStatistics: any;
   clusterHealth: any;
-  constructor(private serverService: ServerService) { }
+  userRole: string = ''; // Add a property for the user role
+
+  constructor(private serverService: ServerService,private userService: UserService) { }
 
   ngOnInit(): void {
     this.loadIndices();
     this.loadClusterStatistics();
     this.loadClusterHealth();
+    this.userRole = this.userService.getUserType();
+
   }
 
   loadIndices(): void {

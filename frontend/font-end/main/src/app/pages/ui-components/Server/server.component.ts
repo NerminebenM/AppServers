@@ -13,6 +13,7 @@ import { Server } from '../../server/server';
 import { ViewChild } from '@angular/core';
 import * as jQuery from 'jquery';
 import 'bootstrap/js/dist/modal';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-menu',
@@ -33,11 +34,15 @@ export class AppServerComponent implements OnInit {
   isLoading$ = this.isLoading.asObservable();
   servers: Server[];
   servers$: Observable<Server[]>;
+  userRole: string = ''; // Add a property for the user role
 
-  constructor(private serverService: ServerService, private notifier: NotificationService) { }
+  constructor(private serverService: ServerService, private notifier: NotificationService,    private userService: UserService // Inject UserService
+  ) { }
 
 
   ngOnInit(): void {
+    this.userRole = this.userService.getUserType();
+
     this.appState$ = this.serverService.servers$.pipe(
       map((response) => {
         this.dataSubject.next(response);

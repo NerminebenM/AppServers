@@ -21,6 +21,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { HelpsComponent } from './helps/helps.component';
 import { SettingsComponent } from './settings/settings.component';
+import { RoleGuard } from './services/RoleGuard';
 
 const routes: Routes = [
 
@@ -29,6 +30,7 @@ const routes: Routes = [
     redirectTo: '/login',
     pathMatch: 'full',
   },
+
   { path: 'notifications', component: NotificationsComponent },
   { path: 'help', component: HelpsComponent },
   { path: 'settings', component: SettingsComponent },
@@ -36,7 +38,7 @@ const routes: Routes = [
     path: 'login',
     component: AppSideLoginComponent,
   },
-  { path: 'user-profile', component: UserProfileComponent },
+
 
   {
     path: '',
@@ -46,10 +48,10 @@ const routes: Routes = [
       { path: 'add-log-source', component: AddLogSourceComponent },
       { path: 'admin-overview', component: AdminOverviewComponent },
       { path: 'user-management', component: UserManagementComponent },
-      { path: 'snapshots-maintenance', component: SnapshotsMaintenanceComponent },
+      { path: 'snapshots-maintenance', component: SnapshotsMaintenanceComponent},
       { path: 'cluster-status', component: ClusterStatusComponent },
       { path: 'instance-status', component: InstanceStatusComponent },
-      { path: 'monitored-services', component: MonitoredServiceComponent },
+      { path: 'monitored-services', component: MonitoredServiceComponent},
       {
         path: 'dashboard',
         loadChildren: () => import('./pages/pages.module').then((m) => m.PagesModule),
@@ -57,10 +59,13 @@ const routes: Routes = [
       {
         path: 'admin',
         component: AppDashboardadminComponent,
+
+
       },
+      { path: 'user', component: AdminOverviewComponent },
       {
         path: 'mod',
-        component: AppDashboardmoderatorComponent,
+        component: AppDashboardadminComponent,
       },
       {
         path: 'menu',

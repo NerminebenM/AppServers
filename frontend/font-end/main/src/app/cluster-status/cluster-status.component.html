@@ -77,14 +77,14 @@
         <th>Docs</th>
         <th>Primary Size</th>
         <th>Shards</th>
-        <th>Action</th>
+        <th *ngIf="userRole === 'admin'">Action</th>
       </tr>
       <tr *ngFor="let index of indices">
         <td>{{ index.name }}</td>
         <td>{{ index.docs }}</td>
         <td>{{ index.size }}</td>
         <td>{{ index.shards }}</td>
-        <td>
+        <td *ngIf="userRole === 'admin'">
           <button (click)="closeIndex(index)">close</button>
           <button (click)="deleteIndex(index)">delete</button>
         </td>
