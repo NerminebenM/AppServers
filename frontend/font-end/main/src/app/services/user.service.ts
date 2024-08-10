@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -42,24 +42,18 @@ export class UserService {
   getCurrentUser(): Observable<any> {
     return this.http.get<any>('http://localhost:8081/api/test/current-user');
   }
-
-  updateUserProfile(id: number, updatedUser: any, photo: File | null): Observable<any> {
-    const formData: FormData = new FormData();
-    formData.append('username', updatedUser.username);
-    formData.append('email', updatedUser.email);
-    formData.append('motDePasse', updatedUser.password); // Assurez-vous que la clé correspond à ce que le backend attend
-
-    if (photo) {
-      formData.append('photo', photo, photo.name);
-    }
-
-    return this.http.put<any>(`${this.apiUrl}/profile/${id}`, formData).pipe(
-      tap((updatedUser) => {
-        if (updatedUser.photo) {
-          this.profilePhotoSubject.next(updatedUser.photo);
-        }
-      })
-    );
+  private handleError(error: any): Observable<never> {
+    // Implémentez ici la gestion des erreurs
+    console.error('An error occurred:', error);
+    throw error;
+  }
+  updateUserProfile(userId: number, formData: FormData): Observable<any> {
+    const url = `http://localhost:8081/api/users/profile/${userId}`;
+    return this.http.put<any>(url, formData)
+      .pipe(
+        catchError(this.handleError), // Assurez-vous que handleError est bien défini
+        tap(response => console.log(response)) // Log the response
+      );
   }
 
   isLoggedIn(): boolean {

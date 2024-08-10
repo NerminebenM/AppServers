@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { UserService } from 'src/app/services/user.service';
 import { NotificationServiceService } from 'src/app/services/notification-service.service';
 import { Router } from '@angular/router';
+import { Settings, SettingsService } from 'src/app/services/SettingsService';
 
 @Component({
   selector: 'app-header',
@@ -26,6 +27,7 @@ export class HeaderComponent implements OnInit {
   @Output() toggleCollapsed = new EventEmitter<void>();
   showFiller = false;
   translatedText = '';
+  settings: Settings;
 
   constructor(
     public dialog: MatDialog,
@@ -33,12 +35,14 @@ export class HeaderComponent implements OnInit {
     private userService: UserService,
     private notificationService: NotificationServiceService,
     private router: Router,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private settingsService: SettingsService
   ) {}
 
   ngOnInit(): void {
     this.userService.profilePhoto$.subscribe(photo => {
       this.profilePhotoUrl = photo || '/assets/images/profile/user-1.jpg';
+
     });
 
     this.userService.getCurrentUser().subscribe(user => {
@@ -54,8 +58,19 @@ export class HeaderComponent implements OnInit {
 
       this.loadNotifications(); // Charger toutes les notifications
     });
-  }
+    this.settingsService.settings$.subscribe(settings => {
+      this.settings = settings;
+      this.applyFontSize();
+    });
 
+  }
+  applyFontSize(): void {
+    const headerElement = document.querySelector('app-header');
+    if (headerElement) {
+      headerElement.classList.remove('small-font-size', 'medium-font-size', 'large-font-size');
+      headerElement.classList.add(`${this.settings.fontSize}-font-size`);
+    }
+  }
   loadUnreadNotifications(): void {
     this.userService.getCurrentUser().subscribe(user => {
       this.notificationService.getUnreadNotifications(user.id).subscribe(

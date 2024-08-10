@@ -2,10 +2,10 @@
   <div class="report-buttons">
     <button (click)="printPDF()">Print PDF</button>
   </div>
-
-  <div class="charts-section">
+  <div class="charts-section" #chartsSection>
     <div class="chart-container">
-      <apx-chart #chart
+      <h3 class="chart-title">Sales Overview</h3>
+      <apx-chart
         [series]="salesOverviewChart.series"
         [chart]="salesOverviewChart.chart"
         [labels]="salesOverviewChart.labels"
@@ -13,7 +13,8 @@
       </apx-chart>
     </div>
     <div class="chart-container">
-      <apx-chart #chart
+      <h3 class="chart-title">Yearly Metrics</h3>
+      <apx-chart
         [series]="yearlyChart.series"
         [chart]="yearlyChart.chart"
         [labels]="yearlyChart.labels"
@@ -21,7 +22,8 @@
       </apx-chart>
     </div>
     <div class="chart-container">
-      <apx-chart #chart
+      <h3 class="chart-title">Monthly Network Bandwidth</h3>
+      <apx-chart
         [series]="monthlyChart.series"
         [chart]="monthlyChart.chart"
         [labels]="monthlyChart.labels"
@@ -29,6 +31,7 @@
       </apx-chart>
     </div>
   </div>
+
 
   <div class="tables-section">
     <h2>Project Budgets</h2>
@@ -49,26 +52,26 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   </div>
-
-  <div class="activities-section">
-    <h2 class="section-title">Recent Activities</h2>
+  <div class="historical-data-section">
+    <h2 class="section-title">Historical Data Storage</h2>
     <div class="filter-container">
       <button class="filter-button" (click)="toggleFilter()">Filter</button>
     </div>
 
-    <table *ngIf="showFilter">
-      <thead>
-        <tr>
-          <th>Time</th>
-          <th>Activity</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let activity of filteredActivities">
-          <td>{{ formatDate(activity.timestamp) }}</td>
-          <td>{{ activity.description }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="historical-data-table" *ngIf="showFilter">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Activity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let activity of filteredActivities">
+            <td>{{ formatDate(activity.timestamp) }}</td>
+            <td>{{ activity.description }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>

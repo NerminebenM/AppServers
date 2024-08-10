@@ -3,7 +3,6 @@ package com.bezkoder.springjwt.controllers;
 import com.bezkoder.springjwt.models.Cluster;
 import com.bezkoder.springjwt.models.MaintenanceSettings;
 import com.bezkoder.springjwt.models.Repository;
-import com.bezkoder.springjwt.models.Server;
 import com.bezkoder.springjwt.repository.ClusterRepository;
 import com.bezkoder.springjwt.repository.ServerRepo;
 import com.bezkoder.springjwt.security.services.ClusterService;
@@ -15,7 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/clusters")
@@ -26,11 +27,12 @@ public class ClusterController {
 
     @Autowired
     private ServerRepo serverRepository;
+
     @Autowired
     private ClusterService clusterService;
+
     @Autowired
     private MaintenanceService maintenanceService;
-
 
     @GetMapping
     public List<Cluster> getAllClusters() {
@@ -57,6 +59,18 @@ public class ClusterController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create cluster: " + e.getMessage());
         }
     }
+    @GetMapping("/statistics")
+    public ResponseEntity<Map<String, Object>> getClusterStatistics1() {
+        Map<String, Object> statistics = new HashMap<>();
+        long totalClusters = clusterRepository.count();
+        long totalServers = serverRepository.count();
+
+        // Ajoutez d'autres statistiques ici si nécessaire
+        statistics.put("totalClusters", totalClusters);
+        statistics.put("totalServers", totalServers);
+
+        return ResponseEntity.ok(statistics);
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<Cluster> updateCluster(@PathVariable Long id, @RequestBody Cluster clusterDetails) {
@@ -75,11 +89,6 @@ public class ClusterController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<Cluster> addServerToCluster(@PathVariable Long id, @RequestBody Server serverDetails) {
-        Cluster updatedCluster = clusterService.addServerToCluster(id, serverDetails);
-        return ResponseEntity.ok(updatedCluster);
-    }
     @PostMapping("/{clusterId}/maintenance-settings")
     public ResponseEntity<Cluster> createOrUpdateMaintenanceSettings(@PathVariable Long clusterId, @RequestBody MaintenanceSettings maintenanceSettings) {
         Cluster updatedCluster = maintenanceService.createOrUpdateMaintenanceSettings(clusterId, maintenanceSettings);
@@ -91,5 +100,4 @@ public class ClusterController {
         Cluster updatedCluster = clusterService.addOrUpdateRepositories(maintenanceSettingsId, repositories);
         return ResponseEntity.ok(updatedCluster);
     }
-
 }

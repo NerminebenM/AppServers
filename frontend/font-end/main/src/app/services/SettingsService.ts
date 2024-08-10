@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-// settings.service.ts
 export interface Settings {
   language: string;
   notificationsEnabled: boolean;
   darkMode: boolean;
   fontSize: string;
+  theme: string;
 }
 
-// SettingsService
 @Injectable({
   providedIn: 'root'
 })
@@ -22,34 +21,35 @@ export class SettingsService {
     const savedSettings = localStorage.getItem(this.settingsKey);
     const initialSettings: Settings = savedSettings ? JSON.parse(savedSettings) : {
       language: 'en',
-      notificationsEnabled: false,
+      notificationsEnabled: true,
       darkMode: false,
-      fontSize: 'medium'
+      fontSize: 'medium',
+      theme: 'default-theme'
     };
     this.settingsSubject = new BehaviorSubject<Settings>(initialSettings);
     this.settings$ = this.settingsSubject.asObservable();
-    this.applySettings(initialSettings); // Apply settings when service is instantiated
+    this.applySettings(initialSettings);
   }
 
-  updateSettings(settings: Settings) {
+  updateSettings(settings: Settings): void {
     localStorage.setItem(this.settingsKey, JSON.stringify(settings));
     this.settingsSubject.next(settings);
     this.applySettings(settings);
   }
 
-  // Method to apply settings
-  applySettings(settings: Settings) {
-    document.body.classList.remove('small-font-size', 'medium-font-size', 'large-font-size');
+  private applySettings(settings: Settings): void {
+    document.body.classList.toggle('dark-mode', settings.darkMode);
 
-    const elements = document.querySelectorAll(
-      'h1, h2, h3, h4, h5, h6, p, a, table, button, mat-button, mat-icon, .mat-mdc-card, .mat-mdc-card-content, .mat-mdc-form-field, .mat-mdc-header-cell, .mat-mdc-button-base, .mdc-button, mat-label'
-    );
-    elements.forEach(el => {
-      el.classList.remove('small-font-size', 'medium-font-size', 'large-font-size');
-    });
+    // Removing old font size classes
+    document.body.classList.remove('small-font-size', 'medium-font-size', 'large-font-size');
+    // Adding new font size class
+    document.body.classList.add(`${settings.fontSize}-font-size`);
+
+    // Applying theme
+    document.body.classList.remove('default-theme', 'dark-theme', 'light-theme');
+    document.body.classList.add(settings.theme);
   }
 
-  // Public getter for current settings
   getCurrentSettings(): Settings {
     return this.settingsSubject.value;
   }

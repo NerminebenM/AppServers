@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import oshi.SystemInfo;
@@ -88,23 +89,9 @@ public  class ServerServiceImpl implements ServerService {
     }
     @Override
     public Server create(Server server) {
-       /* if (!authenticationFacade.isAdmin()) {
-            throw new AccessDeniedException("Vous n'êtes pas autorisé à créer un serveur");
-        }*/
         log.info("Saving new server: {}", server.getName());
         server.setImageUrl(setServerImageUrl());
-        Server savedServer = serverRepo.save(server);
-
-
-        ServerHistory historyEntry = new ServerHistory();
-        historyEntry.setServer(savedServer);
-        historyEntry.setDescription("Server created");
-        historyEntry.setModificationTime(LocalDateTime.now());
-        serverHistoryService.addHistoryEntry(historyEntry);
-        saveRecentActivity("Server created: " + server.getName());
-        notificationService.sendNotification("New Server Added", "A new server named " + server.getName() + " has been added.");
-
-        return savedServer;
+        return serverRepo.save(server);
     }
     @Override
     public List<RecentActivity> getRecentActivities() {
@@ -113,7 +100,7 @@ public  class ServerServiceImpl implements ServerService {
     @Override
     public List<ServerHistory> getServerHistory(Long serverId) {
         Server server = serverRepo.findById(serverId).orElseThrow(() -> new IllegalArgumentException("Server not found"));
-        return server.getHistory();
+       return server.getHistory();
     }
 
     @Override
@@ -232,9 +219,9 @@ public  class ServerServiceImpl implements ServerService {
 
     @Override
     public Boolean delete(Long id) {
-       /* if (!authenticationFacade.isAdmin()) {
+        if (!authenticationFacade.isAdmin()) {
             throw new AccessDeniedException("Vous n'êtes pas autorisé à supprimer un serveur");
-        }*/
+        }
 
         log.info("Deleting server By ID: {}", id);
         saveRecentActivity("Server deleted: ID " + id);
@@ -242,6 +229,13 @@ public  class ServerServiceImpl implements ServerService {
         serverRepo.deleteById(id);
         return TRUE;
     }
+//@Override
+//public Boolean delete(Long id) {
+//    log.info("Deleting server by ID: {}", id);
+//    serverRepo.deleteById(id);
+//    return TRUE;
+//}
+
 
     @Override
     public Long countTotalServers() {

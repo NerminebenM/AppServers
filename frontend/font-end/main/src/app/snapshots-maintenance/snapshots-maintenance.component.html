@@ -25,15 +25,19 @@
         <input type="text" [(ngModel)]="maintenanceSettings.deleteSnapshotsOlderThan" placeholder="You must first create a repository on the right.">
       </div>
       <div class="setting">
+        <label>Cluster ID</label>
+        <input type="number" [(ngModel)]="maintenanceSettings.clusterId">
+      </div>
+      <div class="setting">
         <label>Enable Maintenance and Snapshots</label>
         <input type="radio" name="maintenance" [(ngModel)]="enableMaintenance" [value]="true"> Yes
         <input type="radio" name="maintenance" [(ngModel)]="enableMaintenance" [value]="false"> No
       </div>
       <div class="setting">
         <label>Last modified</label>
-        <p>Mon, 13 Nov 2017 14:55:35 -0600</p>
+        <p>{{ maintenanceSettings.lastModifiedDate | date:'short' }}</p>
       </div>
-      <button (click)="saveMaintenanceSettings()">Save Settings</button>
+      <button (click)="saveSettings()">Save Settings</button>
     </div>
 
     <div class="repositories">
@@ -50,15 +54,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngIf="!newRepository.name && !newRepository.location">
+          <tr *ngIf="!maintenanceSettings?.repositories?.length">
             <td colspan="5">No repositories have been created.</td>
           </tr>
-          <tr *ngIf="newRepository.name && newRepository.location">
-            <td>{{ newRepository.name }}</td>
-            <td>{{ newRepository.location }}</td>
+          <tr *ngFor="let repo of maintenanceSettings?.repositories">
+            <td>{{ repo.name }}</td>
+            <td>{{ repo.location }}</td>
             <td>Type Placeholder</td>
             <td>Size Placeholder</td>
-            <td>Action Placeholder</td>
+            <td>
+              <button (click)="deleteRepository(repo.id)">Delete</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -79,47 +85,54 @@
       </form>
     </div>
   </div>
-<div class="loaded-maintenance-settings">
-  <h2>Loaded Maintenance Settings</h2>
-  <table mat-table [dataSource]="settingsList" class="mat-elevation-z8">
 
-    <!-- ID Column -->
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef> ID </th>
-      <td mat-cell *matCellDef="let settings"> {{settings.id}} </td>
-    </ng-container>
+  <div class="loaded-maintenance-settings">
+    <h2>Loaded Maintenance Settings</h2>
+    <table mat-table [dataSource]="settingsList" class="mat-elevation-z8">
+      <!-- ID Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let settings"> {{settings.clusterId}} </td>
+      </ng-container>
+      <!-- Cluster ID Column -->
+      <ng-container matColumnDef="clusterId">
+        <th mat-header-cell *matHeaderCellDef> Cluster ID </th>
+        <td mat-cell *matCellDef="let settings"> {{settings.clusterId}} </td>
+      </ng-container>
+      <!-- Optimize Indexes Column -->
+      <ng-container matColumnDef="optimizeIndexesOlderThanDays">
+        <th mat-header-cell *matHeaderCellDef> Optimize Indexes </th>
+        <td mat-cell *matCellDef="let settings"> {{settings.optimizeIndexesOlderThanDays}} days </td>
+      </ng-container>
 
-    <!-- Optimize Indexes Column -->
-    <ng-container matColumnDef="optimizeIndexesOlderThanDays">
-      <th mat-header-cell *matHeaderCellDef> Optimize Indexes </th>
-      <td mat-cell *matCellDef="let settings"> {{settings.optimizeIndexesOlderThanDays}} days </td>
-    </ng-container>
+      <!-- Close Indexes Column -->
+      <ng-container matColumnDef="closeIndexesOlderThanDays">
+        <th mat-header-cell *matHeaderCellDef> Close Indexes </th>
+        <td mat-cell *matCellDef="let settings"> {{settings.closeIndexesOlderThanDays}} days </td>
+      </ng-container>
 
-    <!-- Close Indexes Column -->
-    <ng-container matColumnDef="closeIndexesOlderThanDays">
-      <th mat-header-cell *matHeaderCellDef> Close Indexes </th>
-      <td mat-cell *matCellDef="let settings"> {{settings.closeIndexesOlderThanDays}} days </td>
-    </ng-container>
+      <!-- Delete Indexes Column -->
+      <ng-container matColumnDef="deleteIndexesOlderThanDays">
+        <th mat-header-cell *matHeaderCellDef> Delete Indexes </th>
+        <td mat-cell *matCellDef="let settings"> {{settings.deleteIndexesOlderThanDays}} days </td>
+      </ng-container>
 
-    <!-- Delete Indexes Column -->
-    <ng-container matColumnDef="deleteIndexesOlderThanDays">
-      <th mat-header-cell *matHeaderCellDef> Delete Indexes </th>
-      <td mat-cell *matCellDef="let settings"> {{settings.deleteIndexesOlderThanDays}} days </td>
-    </ng-container>
+      <!-- Repository to Store Snapshots Column -->
+      <ng-container matColumnDef="repositoryToStoreSnapshots">
+        <th mat-header-cell *matHeaderCellDef> Repository to Store Snapshots </th>
+        <td mat-cell *matCellDef="let settings"> {{settings.repositoryToStoreSnapshots}} </td>
+      </ng-container>
 
-    <!-- Repository Column -->
-    <ng-container matColumnDef="repositoryToStoreSnapshots">
-      <th mat-header-cell *matHeaderCellDef> Repository </th>
-      <td mat-cell *matCellDef="let settings"> {{settings.repositoryToStoreSnapshots}} </td>
-    </ng-container>
+      <!-- Delete Snapshots Column -->
+      <ng-container matColumnDef="deleteSnapshotsOlderThan">
+        <th mat-header-cell *matHeaderCellDef> Delete Snapshots </th>
+        <td mat-cell *matCellDef="let settings"> {{settings.deleteSnapshotsOlderThan}} </td>
+      </ng-container>
 
-    <!-- Delete Snapshots Column -->
-    <ng-container matColumnDef="deleteSnapshotsOlderThan">
-      <th mat-header-cell *matHeaderCellDef> Delete Snapshots </th>
-      <td mat-cell *matCellDef="let settings"> {{settings.deleteSnapshotsOlderThan}} </td>
-    </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
 </div>

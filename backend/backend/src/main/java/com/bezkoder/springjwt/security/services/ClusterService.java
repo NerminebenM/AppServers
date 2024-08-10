@@ -12,7 +12,7 @@ public interface ClusterService {
     Cluster createCluster(Cluster cluster);
     Cluster updateCluster(Long id, Cluster clusterDetails);
     void deleteCluster(Long id);
-    Cluster addServerToCluster(Long id, Server serverDetails);
+   // Cluster addServerToCluster(Long id, Server serverDetails);
     Cluster createOrUpdateMaintenanceSettings(Long clusterId, MaintenanceSettings maintenanceSettings); // Nouvelle méthode
     Cluster addOrUpdateRepositories(Long maintenanceSettingsId, List<Repository> repositories); // Nouvelle méthode
 

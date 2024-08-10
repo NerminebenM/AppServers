@@ -43,6 +43,7 @@ public class TestController {
   public String adminAccess() {
     return "Admin Board.";
   }
+  @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 
   @GetMapping("/current-user")
   public ResponseEntity<User> getCurrentUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {

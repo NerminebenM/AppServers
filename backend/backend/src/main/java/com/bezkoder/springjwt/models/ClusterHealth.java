@@ -1,5 +1,6 @@
 package com.bezkoder.springjwt.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -18,6 +19,8 @@ public class ClusterHealth {
     private Integer unassignedShards;
     @ManyToOne
     @JoinColumn(name = "server_id")
+    @JsonBackReference
+
     private Server server;
 
     // Getters et setters

@@ -1,0 +1,33 @@
+<h1 mat-dialog-title>Maintenance Settings</h1>
+<div mat-dialog-content>
+  <form class="maintenance-form" *ngIf="maintenanceSettings">
+    <mat-form-field appearance="fill">
+      <mat-label>Optimize Indexes Older Than (Days)</mat-label>
+      <input matInput [(ngModel)]="maintenanceSettings.optimizeIndexesOlderThanDays" name="optimizeIndexesOlderThanDays">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Close Indexes Older Than (Days)</mat-label>
+      <input matInput [(ngModel)]="maintenanceSettings.closeIndexesOlderThanDays" name="closeIndexesOlderThanDays">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Delete Indexes Older Than (Days)</mat-label>
+      <input matInput [(ngModel)]="maintenanceSettings.deleteIndexesOlderThanDays" name="deleteIndexesOlderThanDays">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Repository to Store Snapshots</mat-label>
+      <input matInput [(ngModel)]="maintenanceSettings.repositoryToStoreSnapshots" name="repositoryToStoreSnapshots">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Delete Snapshots Older Than (Days)</mat-label>
+      <input matInput [(ngModel)]="maintenanceSettings.deleteSnapshotsOlderThan" name="deleteSnapshotsOlderThan">
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="cancel()">Cancel</button>
+  <button mat-button color="primary" (click)="saveSettings()">Save</button>
+</div>

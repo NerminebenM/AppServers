@@ -30,7 +30,7 @@ public class MaintenanceSettings {
     private String lastModifiedBy;
     private String lastModifiedDate;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "maintenance_settings_id")
     private List<Repository> repositories;
     @ManyToOne

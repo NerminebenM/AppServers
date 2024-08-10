@@ -1,14 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { SettingsService } from '../services/SettingsService';
-
-
-interface Settings {
-  language: string;
-  notificationsEnabled: boolean;
-  darkMode: boolean;
-  fontSize: string;
-}
+import { Settings, SettingsService } from '../services/SettingsService';
 
 @Component({
   selector: 'app-settings',
@@ -16,33 +8,20 @@ interface Settings {
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
-  settings: Settings = {
-    language: 'fr', // Default language
-    notificationsEnabled: false,
-    darkMode: false,
-    fontSize: 'medium'
-  };
+  settings: Settings;
 
-  constructor(private settingsService: SettingsService, private translate: TranslateService) {}
-
-  ngOnInit(): void {
-    this.loadSettings();
-    this.translate.use(this.settings.language); // Set initial language
+  constructor(private settingsService: SettingsService, private translate: TranslateService) {
+    this.settings = this.settingsService.getCurrentSettings();
   }
 
-  loadSettings(): void {
-    const savedSettings = localStorage.getItem('settings');
-    if (savedSettings) {
-      this.settings = JSON.parse(savedSettings);
-      this.translate.use(this.settings.language); // Use stored language
-    }
+  ngOnInit(): void {
+    this.settingsService.settings$.subscribe(newSettings => {
+      this.settings = newSettings;
+      this.translate.use(newSettings.language); // Set initial language
+    });
   }
 
   updateSettings(): void {
-    localStorage.setItem('settings', JSON.stringify(this.settings));
     this.settingsService.updateSettings(this.settings);
-    this.translate.use(this.settings.language); // Update language
   }
-
-
 }

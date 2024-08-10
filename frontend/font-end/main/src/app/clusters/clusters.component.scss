@@ -1,0 +1,113 @@
+/* clusters.component.scss */
+.cluster-container {
+  padding: 20px;
+  background-color: #f8f9fa; /* Couleur de fond douce pour le conteneur */
+}
+
+.mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  background-color: #007bff; /* Couleur de fond du toolbar */
+  color: white; /* Couleur du texte du toolbar */
+}
+
+.clusters-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Grille responsive */
+  gap: 20px; /* Espacement entre les cartes */
+}
+
+.cluster-card {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère pour plus de profondeur */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px; /* Ajoute du padding pour le confort visuel */
+  transition: transform 0.3s, box-shadow 0.3s; /* Transition douce pour l'effet de survol */
+
+  &:hover {
+    transform: scale(1.02); /* Légère augmentation de la taille au survol */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Ombre plus prononcée au survol */
+  }
+}
+
+.cluster-card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px; /* Espacement sous l'en-tête */
+}
+
+.cluster-icon {
+  width: 50px; /* Taille de l'icône */
+  height: 50px;
+  border-radius: 50%; /* Rendre l'icône circulaire */
+  margin-right: 16px;
+  border: 2px solid #007bff; /* Bordure de couleur principale */
+}
+
+.cluster-card-title {
+  font-size: 1.2rem; /* Taille du titre */
+  font-weight: 600; /* Poids du texte */
+  color: #333; /* Couleur du texte */
+}
+
+.cluster-card-subtitle {
+  font-size: 0.9rem; /* Taille du sous-titre */
+  color: #666; /* Couleur du sous-titre */
+}
+
+.mat-card-content {
+  text-align: center; /* Centrer le texte du contenu */
+}
+
+.mat-card-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Espacement entre les boutons */
+}
+
+.button-edit, .button-delete, .button-settings {
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s; /* Transition douce pour les boutons */
+}
+
+.button-edit {
+  background-color: #007bff; /* Couleur de fond pour le bouton d'édition */
+  color: white;
+
+  &:hover {
+    background-color: #0056b3; /* Couleur au survol */
+  }
+}
+
+.button-delete {
+  background-color: #dc3545; /* Couleur de fond pour le bouton de suppression */
+  color: white;
+
+  &:hover {
+    background-color: #c82333; /* Couleur au survol */
+  }
+}
+
+.button-settings {
+  background-color: #17a2b8; /* Couleur de fond pour le bouton des paramètres */
+  color: white;
+
+  &:hover {
+    background-color: #138496; /* Couleur au survol */
+  }
+}
+
+.mat-icon {
+  font-size: 18px; /* Taille des icônes */
+  margin-right: 4px; /* Espacement entre l'icône et le texte */
+}

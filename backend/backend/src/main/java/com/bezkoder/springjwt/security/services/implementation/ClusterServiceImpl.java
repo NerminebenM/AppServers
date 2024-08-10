@@ -2,18 +2,15 @@ package com.bezkoder.springjwt.security.services.implementation;
 
 import com.bezkoder.springjwt.exception.ResourceNotFoundException;
 import com.bezkoder.springjwt.models.*;
-import com.bezkoder.springjwt.repository.ClusterHealthRepo;
-import com.bezkoder.springjwt.repository.ClusterRepository;
-import com.bezkoder.springjwt.repository.ClusterStatisticsRepo;
-import com.bezkoder.springjwt.repository.ServerRepo;
+import com.bezkoder.springjwt.repository.*;
 import com.bezkoder.springjwt.security.services.ClusterService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 @RequiredArgsConstructor
 @Service
@@ -26,6 +23,20 @@ public class ClusterServiceImpl implements ClusterService {
     @Autowired
     private ServerRepo serverRepository;
 
+
+    @Autowired
+    private MaintenanceSettingsRepository settingsRepository;
+    public Map<String, Object> getClusterStatistics1() {
+        Map<String, Object> statistics = new HashMap<>();
+        long totalClusters = clusterRepository.count();
+        long totalServers = serverRepository.count();
+
+        // Ajoutez d'autres statistiques ici si nécessaire
+        statistics.put("totalClusters", totalClusters);
+        statistics.put("totalServers", totalServers);
+
+        return statistics;
+    }
     @Override
     public ClusterStatistics getClusterStatistics() {
         return clusterStatisticsRepo.findFirstByOrderByIdAsc();
@@ -50,7 +61,6 @@ public class ClusterServiceImpl implements ClusterService {
         return clusterRepository.save(cluster);
     }
 
-    @Override
     public Cluster updateCluster(Long id, Cluster clusterDetails) {
         return clusterRepository.findById(id)
                 .map(cluster -> {
@@ -65,7 +75,7 @@ public class ClusterServiceImpl implements ClusterService {
     public void deleteCluster(Long id) {
         clusterRepository.deleteById(id);
     }
-    @Transactional
+   /* @Transactional
     @Override
     public Cluster addServerToCluster(Long clusterId, Server server) {
         Cluster cluster = clusterRepository.findById(clusterId)
@@ -79,9 +89,8 @@ public class ClusterServiceImpl implements ClusterService {
         server.setCluster(cluster); // Assurez-vous que le serveur a une référence vers le cluster
         // Enregistrez les modifications nécessaires
         return clusterRepository.save(cluster);
-    }
+    }*/
 
-    @Override
     public Cluster createOrUpdateMaintenanceSettings(Long clusterId, MaintenanceSettings maintenanceSettings) {
         Optional<Cluster> clusterOptional = clusterRepository.findById(clusterId);
 
@@ -90,34 +99,28 @@ public class ClusterServiceImpl implements ClusterService {
         }
 
         Cluster cluster = clusterOptional.get();
-        maintenanceSettings.setCluster(cluster);
+        maintenanceSettings.setId(cluster.getMaintenanceSettings() != null ? cluster.getMaintenanceSettings().getId() : null);
         cluster.setMaintenanceSettings(maintenanceSettings);
 
         return clusterRepository.save(cluster);
     }
+
 
     @Override
     public Cluster addOrUpdateRepositories(Long maintenanceSettingsId, List<Repository> repositories) {
-        // 1. Récupérez les paramètres de maintenance associés à l'ID
-        Optional<Cluster> clusterOptional = clusterRepository.findById(maintenanceSettingsId);
-
-        if (!clusterOptional.isPresent()) {
-            throw new ResourceNotFoundException("Cluster not found with id " + maintenanceSettingsId);
+        Optional<MaintenanceSettings> settingsOptional = settingsRepository.findById(maintenanceSettingsId);
+        if (!settingsOptional.isPresent()) {
+            throw new ResourceNotFoundException("MaintenanceSettings not found with id " + maintenanceSettingsId);
         }
 
-        Cluster cluster = clusterOptional.get();
-        MaintenanceSettings maintenanceSettings = cluster.getMaintenanceSettings();
-
-        if (maintenanceSettings == null) {
-            throw new ResourceNotFoundException("MaintenanceSettings not found for Cluster with id " + maintenanceSettingsId);
-        }
-
-        // 2. Mettez à jour la liste des répertoires avec ceux fournis
+        MaintenanceSettings maintenanceSettings = settingsOptional.get();
         maintenanceSettings.setRepositories(repositories);
+        settingsRepository.save(maintenanceSettings);
 
-        // 3. Sauvegardez les modifications dans le clusterRepository
-        cluster.setMaintenanceSettings(maintenanceSettings);
-        return clusterRepository.save(cluster);
-    }
-
-}
+        Optional<Cluster> clusterOptional = clusterRepository.findByMaintenanceSettingsId(maintenanceSettingsId);
+        if (clusterOptional.isPresent()) {
+            return clusterOptional.get();
+        } else {
+            throw new ResourceNotFoundException("Cluster not found for maintenanceSettingsId " + maintenanceSettingsId);
+        }
+    }}

@@ -1,42 +1,72 @@
-<div class="container">
-
-    <!--<div class="section">
-      <h3>General</h3>
-      <ul>
-        <li><a href="#">Global Settings</a></li>
-        <li><a href="#">Mail Settings</a></li>
-        <li><a href="#">License Information</a></li>
-        <li><a href="#">Proxy Configuration</a></li>
-      </ul>
-    </div>-->
-  </div>
-  <div class="admin-overview">
-    <h1>Admin Overview</h1>
-    <div class="cluster-statistics">
-      <div class="stat">
-        <h2>40,467,599</h2>
-        <p>Documents</p>
-      </div>
-      <div class="stat">
-        <h2>26.1GB</h2>
-        <p>Primary Size</p>
-      </div>
-      <div class="stat">
-        <h2>234</h2>
-        <p>Total Shards</p>
-      </div>
-      <div class="stat">
-        <h2>3</h2>
-        <p>Data Instances</p>
+<div class="admin-overview">
+  <!-- Cluster Statistics -->
+  <div class="statistic-card cluster">
+    <div class="statistic-header">
+      <h2>Cluster Performance Metrics</h2>
+      <div class="indicator">
+        <mat-icon>trending_up</mat-icon>
+        <span>{{ clusterStatistics.averageCpuUsage }}%</span>
       </div>
     </div>
-    <div class="logstash-info">
-      Logstash is currently collecting locally on: tcp6: 3515, 2056, 5544, 2057 udp6: 5544
+    <div class="statistic-body">
+      <p>Total Clusters: <span>{{ clusterCount }}</span></p>
+      <div class="statistic-detail">
+        <p>Average Memory Usage: <span>{{ clusterStatistics.averageMemoryUsage }}%</span></p>
+      </div>
     </div>
-    <div class="version-info">
-      <h2>Version Info</h2>
-      <p>Nagios Log Server 2.0.0</p>
-    </div>
-    <router-outlet></router-outlet>
   </div>
 
+  <!-- Server Statistics -->
+  <div class="statistic-card server">
+    <div class="statistic-header">
+      <h2>Server Performance Analysis</h2>
+      <div class="indicator">
+        <mat-icon>signal_cellular_alt</mat-icon>
+        <span>{{ serverStatistics.totalNetworkBandwidth }} Gbps</span>
+      </div>
+    </div>
+    <div class="statistic-body">
+      <p>Total Servers: <span>{{ serverStatistics.totalServers }}</span></p>
+      <div class="statistic-detail">
+        <p>Average CPU Usage: <span>{{ serverStatistics.averageCpuUsage }}%</span></p>
+        <p>Average Memory Usage: <span>{{ serverStatistics.averageMemoryUsage }}%</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="summary">
+    <div class="summary-item">
+      <h3>Active Clusters</h3>
+      <p>{{ clusterCount }}</p>
+    </div>
+  </div>
+
+  <!-- Charts Section -->
+  <div #chartsSection class="charts-section">
+    <div class="chart-container">
+      <h3>Sales Overview</h3>
+      <apx-chart [series]="salesOverviewChart.series" [chart]="salesOverviewChart.chart" [labels]="salesOverviewChart.labels" [tooltip]="salesOverviewChart.tooltip"></apx-chart>
+    </div>
+
+    <div class="chart-container">
+      <h3>Yearly Statistics</h3>
+      <apx-chart [series]="yearlyChart.series" [chart]="yearlyChart.chart" [labels]="yearlyChart.labels" [tooltip]="yearlyChart.tooltip"></apx-chart>
+    </div>
+
+    <div class="chart-container">
+      <h3>Monthly Statistics</h3>
+      <apx-chart [series]="monthlyChart.series" [chart]="monthlyChart.chart" [labels]="monthlyChart.labels" [tooltip]="monthlyChart.tooltip"></apx-chart>
+    </div>
+
+    <div class="chart-container">
+      <h3>Employee Overview</h3>
+      <apx-chart [series]="employeeChart.series" [chart]="employeeChart.chart" [labels]="employeeChart.labels" [tooltip]="employeeChart.tooltip"></apx-chart>
+    </div>
+
+    <div class="chart-container">
+      <h3>Cluster Metrics</h3>
+      <apx-chart [series]="clusterChart.series" [chart]="clusterChart.chart" [labels]="clusterChart.labels" [tooltip]="clusterChart.tooltip"></apx-chart>
+    </div>
+  </div>
+</div>

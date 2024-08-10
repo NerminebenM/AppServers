@@ -5,9 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Data
 @NoArgsConstructor
@@ -20,8 +17,8 @@ public class Cluster {
     @Column(unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "cluster", cascade = CascadeType.ALL)
-    private List<Server> servers = new ArrayList<>();
+    /*@OneToMany(mappedBy = "cluster", cascade = CascadeType.ALL)
+    private List<Server> servers = new ArrayList<>();*/
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "maintenance_settings_id", referencedColumnName = "id")
     private MaintenanceSettings maintenanceSettings;

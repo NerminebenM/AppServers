@@ -42,25 +42,25 @@
   <button mat-icon-button (click)="toggleDayNightMode()">
     <mat-icon>brightness_4</mat-icon>
   </button>
-
-  <!-- Profile Dropdown -->
-  <button mat-icon-button [matMenuTriggerFor]="profileMenu" aria-label="Profile">
-    <img [src]="profilePhotoUrl" class="rounded-circle object-cover" width="35" />
-  </button>
-  <mat-menu #profileMenu="matMenu" class="topbar-dd cardWithShadow">
-    <a mat-menu-item [routerLink]="['/user-profile']">
-      <mat-icon class="d-flex align-items-center">
-        <i-tabler name="user" class="icon-18 d-flex"></i-tabler>
-      </mat-icon> Mon Profil
-    </a>
-    <button mat-menu-item routerLink="/settings">
-      <mat-icon class="d-flex align-items-center">
-        <i-tabler name="settings" class="icon-18 d-flex"></i-tabler>
-      </mat-icon>
-      Settings
-    </button>
-    <div class="p-x-12 m-t-12">
-      <a [routerLink]="['/authentication/login']" mat-stroked-button color="primary" class="w-100">Logout</a>
-    </div>
-  </mat-menu>
+<!-- Profile Dropdown -->
+<button mat-icon-button [matMenuTriggerFor]="profileMenu" aria-label="Profile">
+  <img [src]="profilePhotoUrl" class="profile-image" alt="Profile Photo" />
+</button>
+<mat-menu #profileMenu="matMenu" class="topbar-dd cardWithShadow">
+  <a mat-menu-item [routerLink]="['/user-profile']">
+    <mat-icon class="d-flex align-items-center">
+      <i-tabler name="user" class="icon-18 d-flex"></i-tabler>
+    </mat-icon>
+    Mon Profil
+  </a>
+  <a mat-menu-item [routerLink]="['/settings']">
+    <mat-icon class="d-flex align-items-center">
+      <i-tabler name="settings" class="icon-18 d-flex"></i-tabler>
+    </mat-icon>
+    Paramètres
+  </a>
+  <div class="p-x-12 m-t-12">
+    <a [routerLink]="['/authentication/login']" mat-stroked-button color="primary" class="w-100">Déconnexion</a>
+  </div>
+</mat-menu>
 </mat-toolbar>

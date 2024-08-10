@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { Employee } from './employee-model';
 import { MatDialog } from '@angular/material/dialog';
@@ -15,8 +15,11 @@ export class EmployeeService {
 
   constructor(private http: HttpClient, private authService: AuthService,private dialog: MatDialog,) { }
   private getHeaders(): HttpHeaders {
-    const token = this.authService.getToken();
-    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const token = localStorage.getItem('token'); // Assuming you store your token in localStorage
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
   }
   // Method to retrieve the list of employees from the API
   getEmployees(): Observable<Employee[]> {
@@ -28,15 +31,14 @@ export class EmployeeService {
   }
 
 
-  addEmployeeWithUser(employee: Employee, username: string, email: string, password: string): Observable<any> {
+  addEmployeeWithUser(employee: Employee, username: string, email: string, password: string, role: string): Observable<any> {
     const headers = this.getHeaders();
-    const payload = { employee, username, email, password };
+    const payload = { employee, username, email, password, role: [role] };
     return this.http.post<any>('http://localhost:8081/api/auth/signup', payload, { headers })
       .pipe(
         catchError(this.handleError)
       );
   }
-
 
   searchEmployees(query: string): Observable<Employee[]> {
     if (this.authService.isLoggedIn()) { // vérification de l'authentification
@@ -83,32 +85,30 @@ export class EmployeeService {
   }
 
 
-
+ 
 
 
   editEmployee(username: string, updatedEmployee: Employee): Observable<any> {
     if (this.authService.isLoggedIn()) {
-      const headers = new HttpHeaders().set('Authorization', `Bearer ${this.authService.getToken()}`);
+      const headers = this.getHeaders();
       const url = `http://localhost:8081/api/users/update/${username}`;
       return this.http.put<any>(url, updatedEmployee, { headers })
         .pipe(
           catchError(this.handleError)
+        ).pipe(
+          tap(response => console.log(response)) // Add this line to log the response
         );
     } else {
       return throwError('Unauthorized access');
     }
   }
-  deleteEmployee(username: string): Observable<any> {
-    if (this.authService.isLoggedIn()) {
-      const headers = new HttpHeaders().set('Authorization', `Bearer ${this.authService.getToken()}`);
-      const url = `http://localhost:8081/api/users/delete/${username}`;
-      return this.http.delete<any>(url, { headers })
+  deleteEmployee(id: string): Observable<any> {
+    const headers = this.getHeaders();
+    const url = `http://localhost:8081/api/users/profile/${id}`;
+    return this.http.delete<any>(url, { headers })
         .pipe(
-          catchError(this.handleError)
+            catchError(this.handleError)
         );
-    } else {
-      return throwError('Unauthorized access');
-    }
-  }
+}
 
 }

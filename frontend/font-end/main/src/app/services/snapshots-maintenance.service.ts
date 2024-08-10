@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { MaintenanceSettings } from '../models/MaintenanceSettings';
+import { Repository } from '../models/Repository';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +13,14 @@ export class SnapshotsMaintenanceService {
 
   constructor(private http: HttpClient) {}
 
+  getAllMaintenanceSettings(): Observable<MaintenanceSettings[]> {
+    const url = `${this.baseUrl}/settings`;
+    return this.http.get<MaintenanceSettings[]>(url)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   saveMaintenanceSettings(settings: MaintenanceSettings): Observable<MaintenanceSettings> {
     const url = `${this.baseUrl}/settings`;
     return this.http.post<MaintenanceSettings>(url, settings)
@@ -18,18 +28,9 @@ export class SnapshotsMaintenanceService {
         catchError(this.handleError)
       );
   }
-
   getMaintenanceSettingsById(id: number): Observable<MaintenanceSettings> {
     const url = `${this.baseUrl}/settings/${id}`;
     return this.http.get<MaintenanceSettings>(url)
-      .pipe(
-        catchError(this.handleError)
-      );
-  }
-
-  getAllMaintenanceSettings(): Observable<MaintenanceSettings[]> {
-    const url = `${this.baseUrl}/settings`;
-    return this.http.get<MaintenanceSettings[]>(url)
       .pipe(
         catchError(this.handleError)
       );
@@ -57,27 +58,3 @@ export class SnapshotsMaintenanceService {
   }
 }
 
-// Définition des interfaces
-
-export interface Repository {
-  id?: number;
-  name: string;
-  location: string;
-}
-
-export interface MaintenanceSettings {
-  id?: number;
-  optimizeIndexesOlderThanDays: number;
-  closeIndexesOlderThanDays: number;
-  deleteIndexesOlderThanDays: number;
-  repositoryToStoreSnapshots: string;
-  deleteSnapshotsOlderThan: string;
-  repositories?: Repository[];
-  settingName?: string;
-  settingValue?: string;
-  description?: string;
-  createdBy?: string;
-  createdDate?: string;
-  lastModifiedBy?: string;
-  lastModifiedDate?: string;
-}

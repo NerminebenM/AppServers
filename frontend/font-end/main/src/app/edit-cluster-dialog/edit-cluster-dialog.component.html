@@ -1,0 +1,22 @@
+<!-- src/app/clusters/edit-cluster-dialog/edit-cluster-dialog.component.html -->
+<h1 mat-dialog-title>Edit Cluster</h1>
+<div mat-dialog-content>
+  <form [formGroup]="clusterForm" class="cluster-form">
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name">
+      <mat-error *ngIf="clusterForm.get('name')?.hasError('required')">
+        Name is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description" rows="3"></textarea>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+</div>

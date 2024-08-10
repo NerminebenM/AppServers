@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class NotificationServiceService {
   private baseUrl = 'http://localhost:8081/notif';
   private unreadNotificationsCount = new BehaviorSubject<number>(0);
 
-  constructor(private http: HttpClient, private authService: AuthService) {
+  constructor(private http: HttpClient, private authService: AuthService, private snackBar: MatSnackBar) {
     this.updateUnreadNotificationsCount();
   }
 
@@ -65,7 +66,12 @@ export class NotificationServiceService {
     return this.http.post<string>(`${this.baseUrl}/alerts`, payload, { headers });
   }
 
-
+  showError(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
+      panelClass: ['snack-bar-error']
+    });
+  }
 }
 
 

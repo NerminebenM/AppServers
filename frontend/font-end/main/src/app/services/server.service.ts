@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
@@ -7,6 +7,8 @@ import { CustomResponse } from '../pages/server/custom-response';
 import { Server } from '../pages/server/server';
 import { ServerHistory } from '../models/server-history';
 import { RecentActivity } from '../models/RecentActivity';
+import { AuthService } from './auth.service';
+import { Token } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root',
@@ -15,19 +17,32 @@ export class ServerService {
   private readonly apiUrl = 'http://localhost:8081';
 
   constructor(private http: HttpClient) {}
+  // private getAuthHeaders(): HttpHeaders {
+  //   const token = localStorage.getItem('authToken'); // Ensure 'authToken' is the correct key
+  //   return new HttpHeaders({
+  //     'Authorization': `Bearer ${token}`
+  //   });
+  // }
+    // Method to get the JWT token from local storage
+    private getAuthHeaders(): HttpHeaders {
+      const token = localStorage.getItem('token');  // Ensure token is stored in localStorage
+      return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    }
 
   servers$ = this.http.get<CustomResponse>(`${this.apiUrl}/server/all`)
     .pipe(
       tap(response => console.log(response)),
       catchError(this.handleError)
     );
+    updateServer(server: any): Observable<any> {
+      return this.http.put(`${this.apiUrl}/server/${server.id}`, server);
+    }
+    // Save server method
+  save$(server: Server): Observable<CustomResponse> {
+    const headers = this.getAuthHeaders();
+    return this.http.post<CustomResponse>(`${this.apiUrl}/server/save`, server, { headers });
+  }
 
-  save$ = (server: Server) => <Observable<CustomResponse>>
-    this.http.post<CustomResponse>(`${this.apiUrl}/server/save`, server)
-      .pipe(
-        tap(console.log),
-        catchError(this.handleError)
-      );
 
       ping$ = (address: string) => <Observable<CustomResponse>>
       this.http.get<CustomResponse>(`${this.apiUrl}/server/ping/${address}`)
@@ -61,8 +76,8 @@ export class ServerService {
         catchError(this.handleError)
       );
 
-  delete$ = (serverId: number) => <Observable<CustomResponse>>
-    this.http.delete<CustomResponse>(`${this.apiUrl}/server/delete/${serverId}`)
+  delete$ = (id: number) => <Observable<CustomResponse>>
+    this.http.delete<CustomResponse>(`${this.apiUrl}/server/delete/${id}`)
       .pipe(
         tap(console.log),
         catchError(this.handleError)

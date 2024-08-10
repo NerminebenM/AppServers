@@ -1,0 +1,18 @@
+<!-- create-cluster-dialog.component.html -->
+<h1 mat-dialog-title>Create New Cluster</h1>
+<div mat-dialog-content>
+  <form #clusterForm="ngForm" class="cluster-form">
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput [(ngModel)]="cluster.name" name="name" required>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Description</mat-label>
+      <textarea matInput [(ngModel)]="cluster.description" name="description" rows="3" required></textarea>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+</div>

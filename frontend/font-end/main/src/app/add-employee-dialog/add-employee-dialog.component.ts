@@ -24,7 +24,8 @@ export class AddEmployeeDialogComponent implements OnInit {
     this.employeeForm = this.fb.group({
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      role: ['', Validators.required]
     });
   }
 
@@ -34,8 +35,9 @@ export class AddEmployeeDialogComponent implements OnInit {
       const username = formValues.username;
       const email = formValues.email;
       const password = formValues.password;
+      const role = formValues.role;
 
-      this.employeeService.addEmployeeWithUser(null, username, email, password).subscribe(
+      this.employeeService.addEmployeeWithUser(null, username, email, password, role).subscribe(
         response => {
           this.showSuccess('Employee and user added successfully');
           this.dialogRef.close(true);

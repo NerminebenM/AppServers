@@ -33,13 +33,13 @@ public class ServerMonitorService {
         List<Server> servers = serverRepo.findAll();
         for (Server server : servers) {
             try {
-                if (!isReachable(server.getIpAddress())) {
+                if (server.isMonitorable() && !isReachable(server.getIpAddress())) {
                     if (!server.isAlertSent()) {
                         sendAlert(server);
                         server.setAlertSent(true);
                         serverRepo.save(server);
                     }
-                } else {
+                } else if (server.isMonitorable()) {
                     server.setAlertSent(false);
                     serverRepo.save(server);
                 }

@@ -1,7 +1,9 @@
 // app.component.ts
 
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+import { SnapshotsMaintenanceComponent } from './snapshots-maintenance/snapshots-maintenance.component';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +14,7 @@ export class AppComponent {
   title: string;
   isNightMode: boolean = false;
 
-  constructor(private translate: TranslateService) {
+  constructor(private translate: TranslateService,private dialog: MatDialog) {
     // Set the default language (e.g., English)
     translate.setDefaultLang('en');
 
@@ -25,7 +27,11 @@ export class AppComponent {
       this.title = event.translations[event.lang]['APPLICATION'];
     });
   }
-
+  openDialog() {
+    this.dialog.open(SnapshotsMaintenanceComponent, {
+      data: { clusterId: 123 }  // Replace with actual data
+    });
+  }
   toggleNightMode() {
     this.isNightMode = !this.isNightMode;
     const body = document.getElementsByTagName('body')[0];

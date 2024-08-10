@@ -1,10 +1,10 @@
 package com.bezkoder.springjwt.models;
 
 import com.bezkoder.springjwt.enumeration.Status;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "server_history")
 public class ServerHistory {
@@ -12,8 +12,9 @@ public class ServerHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "server_id")
+    @JsonBackReference
     private Server server;
 
     @Column(nullable = false)
@@ -27,6 +28,9 @@ public class ServerHistory {
 
     @Enumerated(EnumType.STRING)
     private Status currentStatus;
+
+    // Getters and Setters
+
     public ServerHistory() {
     }
     // Constructeur avec paramètres

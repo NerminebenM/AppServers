@@ -4,6 +4,9 @@ import { MonitoredService } from '../models/monitored-service.model';
 import { MonitoredServiceService } from '../services/monitored-service.service';
 import { Observable } from 'rxjs';
 import { UserService } from '../services/user.service';
+import { NotificationService } from '../services/notification.service';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-monitored-service',
@@ -16,13 +19,15 @@ export class MonitoredServiceComponent implements OnInit {
   isLoading: boolean = false;
   userRole: string = ''; // Add a property for the user role
 
-  constructor(private monitoredServiceService: MonitoredServiceService,    private userService: UserService // Inject UserService
+  constructor(
+    private monitoredServiceService: MonitoredServiceService,
+    private userService: UserService,
+    private notifier: NotificationService
   ) { }
 
   ngOnInit(): void {
     this.loadServices();
     this.userRole = this.userService.getUserType();
-
   }
 
   loadServices(): void {
@@ -65,7 +70,19 @@ export class MonitoredServiceComponent implements OnInit {
   }
 
   printReport(): void {
-    window.print();
+    this.notifier.onSuccess('Report downloaded');
+    this.services$.subscribe(services => {
+      // Create a new workbook
+      const wb = XLSX.utils.book_new();
+      // Convert JSON data to worksheet
+      const ws = XLSX.utils.json_to_sheet(services);
+      // Append worksheet to workbook
+      XLSX.utils.book_append_sheet(wb, ws, 'Services');
+      // Generate Excel file
+      const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+      // Save file
+      saveAs(new Blob([wbout], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }), 'services_report.xlsx');
+    });
   }
 
   openModal(): void {

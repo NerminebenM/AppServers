@@ -1,5 +1,6 @@
 package com.bezkoder.springjwt.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -15,6 +16,8 @@ public class ClusterStatistics {
     private Integer indices;
     @ManyToOne
     @JoinColumn(name = "server_id", nullable = false)
+    @JsonBackReference
+
     private Server server;
 
 

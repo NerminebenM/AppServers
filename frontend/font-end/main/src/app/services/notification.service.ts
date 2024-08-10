@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotifierService } from 'angular-notifier';
 
 @Injectable({ providedIn: 'root' })
@@ -8,7 +9,7 @@ export class NotificationService {
   }
   private readonly notifier: NotifierService;
 
-  constructor(notifierService: NotifierService) {
+  constructor(notifierService: NotifierService, private snackBar: MatSnackBar) {
     this.notifier = notifierService;
   }
 
@@ -30,6 +31,12 @@ export class NotificationService {
 
   onError(message: string): void {
     this.notifier.notify(Type.ERROR, message);
+  }
+  showError(message: string) {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
+      panelClass: ['snack-bar-error']
+    });
   }
 }
 

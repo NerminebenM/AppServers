@@ -95,17 +95,8 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
                 }))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/api/auth/**").permitAll()
-                                .requestMatchers("/api/test/**").permitAll()
-                                .requestMatchers("/api/tasks/**").permitAll()
-                                .requestMatchers("/api/employees/**").permitAll()
-                                .requestMatchers("/server/**").permitAll()
-                                .requestMatchers("/apiserver/**").permitAll()
-                                .requestMatchers("/api/maintenance/**").permitAll()
-                                .requestMatchers("/notif/**").permitAll()
-                                .requestMatchers("/api/clusters/**").permitAll()
-                                .requestMatchers("/api/users/**").permitAll()
-                                .anyRequest().authenticated()
+                        auth.requestMatchers("/**").permitAll()
+
                 )
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()));
         http.authenticationProvider(authenticationProvider());
@@ -119,12 +110,14 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.applyPermitDefaultValues();
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"));
         configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"));
+        configuration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
+
         return source;
     }
 }

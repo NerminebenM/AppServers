@@ -1,0 +1,39 @@
+/* create-cluster-dialog.component.scss */
+h1[mat-dialog-title] {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #007bff; /* Couleur du titre pour correspondre à votre thème */
+  margin-bottom: 16px;
+}
+
+.cluster-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Espacement entre les champs du formulaire */
+}
+
+mat-form-field {
+  width: 100%; /* Assurez-vous que les champs de formulaire utilisent toute la largeur disponible */
+}
+
+textarea.mat-input-element {
+  resize: vertical; /* Permet le redimensionnement vertical */
+}
+
+div[mat-dialog-actions] {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px; /* Espacement entre les boutons */
+  margin-top: 20px;
+}
+
+button[mat-button] {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 4px;
+}
+
+button[mat-raised-button] {
+  text-transform: uppercase; /* Met le texte en majuscules pour un look plus professionnel */
+}

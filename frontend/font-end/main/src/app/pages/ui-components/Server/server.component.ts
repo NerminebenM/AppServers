@@ -108,20 +108,23 @@ export class AppServerComponent implements OnInit {
       })
     );
   }
-
   saveServer(serverForm: NgForm): void {
     this.isLoading.next(true);
     this.appState$ = this.serverService.save$(serverForm.value as Server)
       .pipe(
         map(response => {
-          this.dataSubject.next(
-            {...response, data: { servers: [response.data.server, ...this.dataSubject.value.data.servers] } }
-          );
+          const updatedResponse: CustomResponse = {
+            ...response,
+            data: {
+              servers: [response.data.server, ...this.dataSubject.value.data.servers]
+            }
+          };
+          this.dataSubject.next(updatedResponse);
           this.notifier.onDefault(response.message);
-          document.getElementById('closeModal').click();
+          this.closeModal(); // Close modal directly
           this.isLoading.next(false);
           serverForm.resetForm({ status: this.Status.SERVER_DOWN });
-          return { dataState: DataState.LOADED_STATE, appData: this.dataSubject.value }
+          return { dataState: DataState.LOADED_STATE, appData: this.dataSubject.value };
         }),
         startWith({ dataState: DataState.LOADED_STATE, appData: this.dataSubject.value }),
         catchError((error: string) => {
@@ -130,7 +133,7 @@ export class AppServerComponent implements OnInit {
           return of({ dataState: DataState.ERROR_STATE, error });
         })
       );
-}
+  }
 
 
   filterServers(status: Status): void {
@@ -161,6 +164,12 @@ export class AppServerComponent implements OnInit {
         this.notifier.onError(error);
         return of({ dataState: DataState.ERROR_STATE, error });
       })
+    );
+  }
+  updateMonitorable(server: Server): void {
+    this.serverService.updateServer(server).subscribe(
+      response => this.notifier.onSuccess('Monitorable status updated successfully'),
+      error => this.notifier.onError('Failed to update monitorable status')
     );
   }
 

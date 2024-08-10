@@ -1,12 +1,15 @@
 package com.bezkoder.springjwt.resource;
 
+import com.bezkoder.springjwt.exception.ResourceNotFoundException;
 import com.bezkoder.springjwt.models.*;
+import com.bezkoder.springjwt.repository.ServerRepo;
 import com.bezkoder.springjwt.security.services.ClusterService;
 import com.bezkoder.springjwt.security.services.IndexService;
 import com.bezkoder.springjwt.security.services.ServerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +19,6 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import static com.bezkoder.springjwt.enumeration.Status.SERVER_UP;
 import static java.time.LocalDateTime.now;
@@ -24,12 +26,15 @@ import static java.util.Map.of;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.IMAGE_PNG_VALUE;
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/server")
 @RequiredArgsConstructor
 public class ServerResource {
     private final ServerService serverService;
     private final IndexService indexService;
     private final ClusterService clusterService;
+    @Autowired
+    private ServerRepo serverRepo;
     @GetMapping("/statisticss")
     public ClusterStatistics getClusterStatistics() {
         return clusterService.getClusterStatistics();
@@ -63,7 +68,16 @@ public class ServerResource {
             return ResponseEntity.status(NOT_FOUND).body(e.getMessage());
         }
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<Server> updateServer(@PathVariable Long id, @RequestBody Server serverDetails) {
+        Server server = serverRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Server not found for this id :: " + id));
 
+        server.setMonitorable(serverDetails.isMonitorable());
+
+        final Server updatedServer = serverRepo.save(server);
+        return ResponseEntity.ok(updatedServer);
+    }
     @DeleteMapping("/index/{id}")
     public ResponseEntity<Void> deleteIndex(@PathVariable Long id) {
         indexService.deleteIndex(id);
@@ -124,7 +138,7 @@ public class ServerResource {
     @SneakyThrows
     @GetMapping("/all")
     public ResponseEntity<Response> getServers() {
-        TimeUnit.SECONDS.sleep(3);
+        // TimeUnit.SECONDS.sleep(3); // Désactivez ce délai pour le test
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(now())
@@ -197,6 +211,7 @@ public class ServerResource {
                         .build()
         );
     }
+
 
     @GetMapping(path = "/image/{fileName}", produces = IMAGE_PNG_VALUE)
     public byte[] getServerImage(@PathVariable("fileName") String fileName) throws IOException {

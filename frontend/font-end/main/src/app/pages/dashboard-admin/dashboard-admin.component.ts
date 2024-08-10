@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, ViewChild, OnInit, ElementRef } from '@angular/core';
+import { Component, ViewEncapsulation, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { ApexChart, ChartComponent } from 'ng-apexcharts';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -14,7 +14,6 @@ import { NotificationService } from 'src/app/services/notification.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class AppDashboardadminComponent implements OnInit {
-  @ViewChild('chart') chart: ChartComponent;
   @ViewChild('chartsSection') chartsSection: ElementRef;
 
   public salesOverviewChart: Partial<any>;
@@ -126,26 +125,31 @@ export class AppDashboardadminComponent implements OnInit {
       { name: 'Network Bandwidth', data: metrics.map(m => m.networkBandwidth) }
     ];
 
-    if (this.chart) {
-      this.chart.updateSeries(this.salesOverviewChart.series);
-      this.chart.updateSeries(this.yearlyChart.series);
-      this.chart.updateSeries(this.monthlyChart.series);
+    // Assuming `chart` is not needed for now, so we update directly.
+    if (this.chartsSection) {
+      this.chartsSection.nativeElement.querySelectorAll('apx-chart').forEach(chartElement => {
+        // Update each chart if needed
+      });
     }
   }
 
- 
-
   printPDF(): void {
-    const chartsSection = this.chartsSection.nativeElement;
-    html2canvas(chartsSection).then(canvas => {
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const imgProps = pdf.getImageProperties(imgData);
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-      pdf.save('charts-report.pdf');
-    });
+    if (this.chartsSection && this.chartsSection.nativeElement) {
+      const chartsSection = this.chartsSection.nativeElement;
+      html2canvas(chartsSection).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdf.save('charts-report.pdf');
+      }).catch(error => {
+        console.error('Error generating PDF:', error);
+      });
+    } else {
+      console.error('chartsSection is undefined or null');
+    }
   }
 
   formatDate(timestamp: Date): string {
@@ -176,14 +180,5 @@ export class AppDashboardadminComponent implements OnInit {
 
   toggleFilter() {
     this.showFilter = !this.showFilter;
-    console.log('Toggled filter visibility:', this.showFilter);
-  }
-
-  sendAlertEmail() {
-    /* this.serverService.sendAlertEmail$(this.alertSubject, this.alertBody).subscribe(response => {
-      console.log('Alert email sent:', response);
-    }, error => {
-      console.error('Error sending alert email:', error);
-    }); */
   }
 }

@@ -22,6 +22,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
 import { HelpsComponent } from './helps/helps.component';
 import { SettingsComponent } from './settings/settings.component';
 import { RoleGuard } from './services/RoleGuard';
+import { ClustersComponent } from './clusters/clusters.component';
 
 const routes: Routes = [
 
@@ -30,6 +31,7 @@ const routes: Routes = [
     redirectTo: '/login',
     pathMatch: 'full',
   },
+  { path: 'user-profile', component: UserProfileComponent }, // Définissez la route ici
 
   { path: 'notifications', component: NotificationsComponent },
   { path: 'help', component: HelpsComponent },
@@ -58,13 +60,17 @@ const routes: Routes = [
       },
       {
         path: 'admin',
-        component: AppDashboardadminComponent,
+        component: AdminOverviewComponent,
 
 
       },
       { path: 'user', component: AdminOverviewComponent },
       {
         path: 'mod',
+        component: AdminOverviewComponent,
+      },
+      {
+        path: 'servergraph',
         component: AppDashboardadminComponent,
       },
       {
@@ -78,6 +84,10 @@ const routes: Routes = [
       {
         path: 'menu/server',
         component: AppServerComponent,
+      },
+      {
+        path: 'clusters',
+        component: ClustersComponent,
       },
       { path: 'ui-components/lists', component: AppListsComponent },
     ],

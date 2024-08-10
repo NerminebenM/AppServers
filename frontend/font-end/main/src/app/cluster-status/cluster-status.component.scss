@@ -1,15 +1,38 @@
+$primary-color: #3f51b5;
+$accent-color: #ff4081;
+$background-color: #f4f6f8;
+$text-color: #777;
+$card-background: #ffffff;
+$stat-background: #f9f9f9;
+$border-color: #ddd;
+$hover-color: #0056b3;
+$green-color: #4caf50;
+$yellow-color: #ffeb3b;
+$red-color: #f44336;
+
 .cluster-status {
   display: flex;
   flex-direction: column;
   padding: 20px;
+  background: $background-color;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   h2 {
-    font-size: 1.5em;
-    margin-bottom: 10px;
+    font-size: 1.75em;
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: $primary-color;
+    border-bottom: 2px solid $primary-color;
+    padding-bottom: 10px;
   }
 
   .cluster-statistics, .cluster-health, .indices {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    background: $card-background;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   .stats {
@@ -21,22 +44,24 @@
       flex: 1 1 30%;
       margin: 10px;
       padding: 20px;
-      background: #f5f5f5;
-      border: 1px solid #ddd;
-      border-radius: 4px;
+      background: $stat-background;
+      border: 1px solid $border-color;
+      border-radius: 8px;
       text-align: center;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 
       .value {
         display: block;
-        font-size: 1.5em;
+        font-size: 2em;
         font-weight: bold;
+        color: $primary-color;
       }
 
       .label {
         display: block;
-        margin-top: 5px;
-        font-size: 1em;
-        color: #777;
+        margin-top: 10px;
+        font-size: 1.1em;
+        color: $text-color;
       }
     }
   }
@@ -44,33 +69,54 @@
   table {
     width: 100%;
     border-collapse: collapse;
+    background: $card-background;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
     th, td {
-      padding: 10px;
-      border: 1px solid #ddd;
+      padding: 15px;
       text-align: left;
+      border-bottom: 1px solid $border-color;
     }
 
     th {
-      background: #f5f5f5;
+      background: $primary-color;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
     }
 
     .green {
-      color: green;
+      color: $green-color;
+    }
+
+    .yellow {
+      color: $yellow-color;
+    }
+
+    .red {
+      color: $red-color;
     }
   }
 
   button {
-    margin-right: 5px;
-    padding: 5px 10px;
-    background-color: #007bff;
+    margin-right: 10px;
+    padding: 8px 16px;
+    background-color: $primary-color;
     border: none;
     color: white;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
 
     &:hover {
-      background-color: #0056b3;
+      background-color: $hover-color;
     }
   }
 }

@@ -29,9 +29,14 @@ export class EditEmployeeDialogComponent implements OnInit {
 
   onConfirm(): void {
     if (this.employeeForm.valid) {
-      this.employeeService.editEmployee(this.data.username, this.employeeForm.value).subscribe(() => {
-        this.dialogRef.close(true);
-      });
+      this.employeeService.editEmployee(this.data.username, this.employeeForm.value).subscribe(
+        () => {
+          this.dialogRef.close(true);
+        },
+        error => {
+          console.error('Error updating employee:', error);
+        }
+      );
     }
   }
 

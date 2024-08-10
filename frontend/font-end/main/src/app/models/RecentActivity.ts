@@ -6,4 +6,5 @@ export interface RecentActivity {
   description: string;
   timestamp: Date;
   server: Server;
+  details?: string; 
 }

@@ -39,10 +39,10 @@ export class Employee {
 
 export interface Role {
   id: number;
-  name: ERole; // Utilise ERole ici pour correspondre à l'énumération
+  name: string; // Utilise ERole ici pour correspondre à l'énumération
 }
-export enum ERole {
-  ROLE_USER = 'ROLE_USER',
-  ROLE_MODERATOR = 'ROLE_MODERATOR',
-  ROLE_ADMIN = 'ROLE_ADMIN'
-}
+// export enum ERole {
+//   ROLE_USER = 'ROLE_USER',
+//   ROLE_MODERATOR = 'ROLE_MODERATOR',
+//   ROLE_ADMIN = 'ROLE_ADMIN'
+// }

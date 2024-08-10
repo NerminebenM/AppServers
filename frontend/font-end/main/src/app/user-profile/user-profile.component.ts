@@ -1,7 +1,10 @@
+// src/app/components/user-profile/user-profile.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { Location } from '@angular/common';
+import { User } from '../models/user';
+import { EmployeeService } from '../services/EmployeeService';
 
 @Component({
   selector: 'app-user-profile',
@@ -16,7 +19,7 @@ export class UserProfileComponent implements OnInit {
   successMessage: string | null = null;
   errorMessage: string | null = null;
 
-  constructor(private fb: FormBuilder, private userService: UserService, private location: Location) {
+  constructor(private fb: FormBuilder, private userService: UserService,private employeeservice: EmployeeService, private location: Location) {
     this.profileForm = this.fb.group({
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -30,7 +33,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   loadUserProfile() {
-    this.userService.getCurrentUser().subscribe(user => {
+    this.userService.getCurrentUser().subscribe((user: User) => {
       this.userId = user.id;
       this.profileForm.patchValue({
         username: user.username,
@@ -57,22 +60,34 @@ export class UserProfileComponent implements OnInit {
 
   onSubmit() {
     if (this.profileForm.valid && this.userId !== undefined) {
-      const updatedUser = {
-        ...this.profileForm.value,
-        id: this.userId
-      };
+      const formData = new FormData();
+      formData.append('username', this.profileForm.get('username')?.value);
+      formData.append('email', this.profileForm.get('email')?.value);
+      formData.append('password', this.profileForm.get('password')?.value);
 
-      this.userService.updateUserProfile(this.userId, updatedUser, this.selectedFile).subscribe({
+      if (this.selectedFile) {
+        formData.append('photo', this.selectedFile, this.selectedFile.name);
+      } else {
+        formData.append('photo', this.profileForm.get('photo')?.value);
+      }
+
+      console.log('FormData:', formData);
+
+      this.userService.updateUserProfile(this.userId, formData).subscribe({
         next: (response) => {
+          console.log('Response:', response);
           this.successMessage = 'Profil mis à jour avec succès';
           this.errorMessage = null;
         },
         error: (err) => {
+          console.log('Error:', err);
           this.errorMessage = 'Erreur lors de la mise à jour du profil : ' + err.error.message;
           this.successMessage = null;
           console.error('Erreur lors de la mise à jour du profil', err);
         }
       });
+    } else {
+      console.log('Form invalid or userId is undefined');
     }
   }
 

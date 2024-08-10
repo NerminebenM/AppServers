@@ -6,6 +6,7 @@ import { StorageService } from 'src/app/services/storage.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
 })
 export class AppSideLoginComponent implements OnInit {
   form: any = {
@@ -17,7 +18,7 @@ export class AppSideLoginComponent implements OnInit {
   errorMessage = '';
   roles: string[] = [];
 
-  constructor(private authService: AuthService, private storageService: StorageService,private router: Router) { }
+  constructor(private authService: AuthService, private storageService: StorageService, private router: Router) { }
 
   ngOnInit(): void {
     if (this.storageService.isLoggedIn()) {
@@ -59,7 +60,6 @@ export class AppSideLoginComponent implements OnInit {
       }
     });
   }
-
 
   reloadPage(): void {
     window.location.reload();

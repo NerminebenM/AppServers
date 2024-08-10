@@ -18,7 +18,7 @@ export class AuthService {
   private userRoles: string[] = [];
 
   constructor(private http: HttpClient, private storageService: StorageService) {
-    this.authToken = localStorage.getItem('authToken') || '';
+    this.authToken = this.storageService.getToken() || ''; // Use storageService
     this.userRoles = JSON.parse(localStorage.getItem('userRoles') || '[]');
   }
 

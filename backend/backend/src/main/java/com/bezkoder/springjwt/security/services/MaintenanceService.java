@@ -13,23 +13,41 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.bezkoder.springjwt.repository.EmployeeRepository.logger;
+
 @Service
 public class MaintenanceService {
 
     @Autowired
     private MaintenanceSettingsRepository settingsRepository;
-
+    public MaintenanceSettings findById(Long id) {
+        return settingsRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("MaintenanceSettings not found with id " + id));
+    }
     @Autowired
     private ClusterRepository clusterRepository;
     public MaintenanceSettings saveMaintenanceSettings(MaintenanceSettings maintenanceSettings) {
-        // Ensure ID is set manually
         if (maintenanceSettings.getId() == null) {
-            maintenanceSettings.setId(generateUniqueId());
+            maintenanceSettings.setId(generateUniqueIdUsingUUID()); // Utilisez l'une des méthodes renommées
         }
-        return settingsRepository.save(maintenanceSettings);
+        try {
+            return settingsRepository.save(maintenanceSettings);
+        } catch (Exception e) {
+            logger.error("Error saving maintenance settings: ", e);
+            throw e; // Re-throw the exception to be handled by the controller
+        }
     }
 
-    public List<MaintenanceSettings> getAllMaintenanceSettings() {
+    private Long generateUniqueIdUsingCurrentTime() {
+        // Implementation for generating a unique ID based on current time
+        return System.currentTimeMillis(); // Example implementation
+    }
+
+    private Long generateUniqueIdUsingUUID() {
+        // Implement logic to generate a unique ID, for example using a UUID
+        return UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
+    }
+        public List<MaintenanceSettings> getAllMaintenanceSettings() {
         return settingsRepository.findAll();
     }
 

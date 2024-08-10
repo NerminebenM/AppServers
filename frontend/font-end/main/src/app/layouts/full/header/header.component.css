@@ -187,6 +187,7 @@ body.night-mode .mat-icon-button {
   padding: 16px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 4px;
+  background-color: white; /* Assurez-vous que le fond est blanc pour une meilleure lisibilité */
 }
 
 .topbar-dd a {
@@ -195,6 +196,7 @@ body.night-mode .mat-icon-button {
   display: flex;
   align-items: center;
   padding: 8px 0;
+  transition: background-color 0.3s ease; /* Ajout d'une transition pour le survol */
 }
 
 .topbar-dd a:hover {

@@ -127,6 +127,10 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { HelpsComponent } from './helps/helps.component';
 import { SettingsComponent } from './settings/settings.component';
+import { ClustersComponent } from './clusters/clusters.component';
+import { CreateClusterDialogComponent } from './create-cluster-dialog/create-cluster-dialog.component';
+import { EditClusterDialogComponent } from './edit-cluster-dialog/edit-cluster-dialog.component';
+import { MaintenanceSettingsDialogComponent } from './maintenance-settings-dialog/maintenance-settings-dialog.component';
 
 @NgModule({
   declarations: [
@@ -152,6 +156,10 @@ import { SettingsComponent } from './settings/settings.component';
     NotificationsComponent,
     HelpsComponent,
     SettingsComponent,
+    ClustersComponent,
+    CreateClusterDialogComponent,
+    EditClusterDialogComponent,
+    MaintenanceSettingsDialogComponent,
   ],
   imports: [
     BrowserModule,

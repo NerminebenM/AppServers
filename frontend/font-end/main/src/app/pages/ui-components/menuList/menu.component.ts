@@ -12,7 +12,7 @@ import { Employee } from 'src/app/services/employee-model';
   styleUrls: ['./menu.component.scss']
 })
 export class AppMenuEComponent implements OnInit {
-  displayedColumns: string[] = ['username', 'email', 'password', 'role', 'status', 'actions'];
+  displayedColumns: string[] = ['username', 'email',  'role', 'status', 'actions'];
   dataSource: Employee[] = [];
   searchQuery: string = '';
 
@@ -77,10 +77,15 @@ export class AppMenuEComponent implements OnInit {
           this.showSuccess('Employee deleted successfully');
           this.getEmployees();
         },
-        error => this.showError('Error deleting employee')
+        error => {
+          console.error('Error deleting employee:', error);
+          this.showError('Error deleting employee');
+        }
       );
     }
+  
   }
+
 
 
   openAddEmployeeDialog(): void {

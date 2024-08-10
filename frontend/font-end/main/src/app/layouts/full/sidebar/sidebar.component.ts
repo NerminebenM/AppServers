@@ -4,6 +4,7 @@ import { NavService } from 'src/app/services/nav.service';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { UserService } from 'src/app/services/user.service';
+import { Settings, SettingsService } from 'src/app/services/SettingsService';
 
 @Component({
   selector: 'app-sidebar',
@@ -14,13 +15,23 @@ export class SidebarComponent implements OnInit {
   navItems: NavItem[] = [];
   treeControl = new NestedTreeControl<NavItem>(node => node.children);
   dataSource = new MatTreeNestedDataSource<NavItem>();
-
-  constructor(public navService: NavService, private userService: UserService) {}
+  settings: Settings;
+  constructor(public navService: NavService, private userService: UserService,private settingsService: SettingsService) {}
 
   ngOnInit(): void {
     this.updateNavItems();
+    this.settingsService.settings$.subscribe(settings => {
+      this.settings = settings;
+      this.applyFontSize();
+    });
   }
-
+  applyFontSize(): void {
+    const sidebarElement = document.querySelector('app-sidebar');
+    if (sidebarElement) {
+      sidebarElement.classList.remove('small-font-size', 'medium-font-size', 'large-font-size');
+      sidebarElement.classList.add(`${this.settings.fontSize}-font-size`);
+    }
+  }
   updateNavItems(): void {
     const userType = this.userService.getUserType();
     console.log('UserType:', userType); // Vérifiez la valeur du type d'utilisateur
@@ -29,15 +40,17 @@ export class SidebarComponent implements OnInit {
       { navCap: 'Home' },
       { displayName: 'Dashboard', iconName: 'dashboard', route: '/admin-overview' },
       { navCap: 'Quick View' },
-      { displayName: 'Manage Servers', iconName: 'error_outline', route: '/menu/server' },
+      { displayName: 'Manage Servers', iconName: 'storage', route: '/menu/server' },
+      { displayName: 'Manage Clusters', iconName: 'grid_view', route: '/clusters' },
+
       { displayName: 'User Management', iconName: 'visibility', route: '/menu/employees' },
-      { displayName: 'Cluster Status', iconName: 'desktop_windows', route: '/cluster-status' },
+      { displayName: 'Cluster Status', iconName: 'pie_chart', route: '/cluster-status' },
       { displayName: 'Instance Status', iconName: 'error', route: '/instance-status' },
       { displayName: 'Operations Center', iconName: 'settings', route: '/snapshots-maintenance' },
       { navCap: 'Details' },
       { displayName: 'Service Detail', iconName: 'info', route: '/monitored-services' },
       { navCap: 'Graphs' },
-      { displayName: 'Graph Explorer', iconName: 'explore', route: '/admin' },
+      { displayName: 'Graph Explorer', iconName: 'explore', route: '/servergraph' },
       { navCap: 'Incident Management' },
       { displayName: 'Notifications', iconName: 'notifications', route: '/notifications' }
     ];

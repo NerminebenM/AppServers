@@ -9,4 +9,9 @@ export interface Server {
     imageUrl: string;
     domain : string;
     status: Status;
+    cpuUsage: number;
+    memoryUsage: number;
+    networkBandwidth: number;
+    pingCount?: number;  // Facultatif, car a une valeur par défaut
+    monitorable?: boolean;  // Facultatif, car a une valeur par défaut
 }
